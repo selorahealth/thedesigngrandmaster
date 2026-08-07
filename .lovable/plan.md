@@ -33,8 +33,10 @@ Build the site exactly to the uploaded spec: AGR-style structure and pacing, Lor
 ## Imagery
 
 - Generate the glass chess queen hero render from the spec prompt (violet to electric blue refraction, amber edge, caustics on dark reflective surface), reused faded in the closing CTA.
-- Generate project cover mockups for the board grid.
-- Project names, categories, testimonials and stats use the spec's placeholder set (Suise, A01Luxe, Pulse Talks, Toju, Haus) so real content can be swapped in later.
+- Generate project cover mockups from the uploaded mockup prompt sheet, one per project, using each prompt as written (device-in-scene, moody lighting, shallow depth of field): Suise, A01Luxe, Pulse Talks, Women in Leadership, Interior, Selorah Health, SyncStep, Toju, FixBase, RektPay, Solarib, Webre, Haus, Newmanstores Collections.
+- The board grid shows six covers up front (Suise, A01Luxe, Pulse Talks, Toju, Haus, RektPay), with the rest generated and available; "View all work" reveals the full set.
+- Each card links to its live URL from the prompt sheet, with category and year in mono type. Stats reflect the real count: 14 projects shipped.
+
 
 ## Backend (Lovable Cloud)
 
