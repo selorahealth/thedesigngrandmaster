@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, sans-serif;
+  --font-sans: "Montserrat", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,26 +65,26 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --radius: 0.25rem;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.958 0.005 90);
+  --card: oklch(0.185 0.004 285);
+  --card-foreground: oklch(0.958 0.005 90);
+  --popover: oklch(0.185 0.004 285);
+  --popover-foreground: oklch(0.958 0.005 90);
+  --primary: oklch(0.52 0.26 285);
+  --primary-foreground: oklch(0.98 0.005 90);
+  --secondary: oklch(0.235 0.005 285);
+  --secondary-foreground: oklch(0.958 0.005 90);
+  --muted: oklch(0.235 0.005 285);
+  --muted-foreground: oklch(0.66 0.008 90);
+  --accent: oklch(0.52 0.26 285);
+  --accent-foreground: oklch(0.98 0.005 90);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 90);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.52 0.26 285);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +143,107 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.cursor-none-root,
+.cursor-none-root * {
+  cursor: none !important;
+}
+
+/* AGR-style two-layer clip-path link hover */
+.swap-link {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1.35;
+}
+
+.swap-link .swap-top,
+.swap-link .swap-bottom {
+  display: block;
+  transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.swap-link .swap-bottom {
+  position: absolute;
+  inset: 0;
+  color: var(--primary);
+  transform: translateY(100%);
+}
+
+.swap-link:hover .swap-top {
+  transform: translateY(-100%);
+}
+
+.swap-link:hover .swap-bottom {
+  transform: translateY(0);
+}
+
+.swap-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.swap-link:hover::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transform: none;
+    transition: opacity 300ms ease;
   }
 }
