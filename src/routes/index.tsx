@@ -1,24 +1,54 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Cursor } from "@/components/site/Cursor";
+import { Nav } from "@/components/site/Nav";
+import { Hero } from "@/components/site/Hero";
+import { OpeningBook } from "@/components/site/OpeningBook";
+import { TheBoard } from "@/components/site/TheBoard";
+import { Repertoire } from "@/components/site/Repertoire";
+import { GamePlan, Stats } from "@/components/site/GamePlan";
+import { PostGame, Engagements } from "@/components/site/PostGame";
+import { OpeningQuestions } from "@/components/site/OpeningQuestions";
+import { Checkmate } from "@/components/site/Checkmate";
+import { Footer } from "@/components/site/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "thedesigngrandmaster — Design and code studio" },
+      {
+        name: "description",
+        content:
+          "Independent studio building websites, apps and brand identities from scratch. 14 live projects across fintech, health, retail and media.",
+      },
+      { property: "og:title", content: "thedesigngrandmaster — Design and code studio" },
+      {
+        property: "og:description",
+        content:
+          "Websites, apps and brand identities, designed and engineered end to end. See the board of 14 live builds.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background text-foreground">
+      <Cursor />
+      <Nav />
+      <Hero />
+      <OpeningBook />
+      <TheBoard />
+      <Repertoire />
+      <GamePlan />
+      <Stats />
+      <PostGame />
+      <Engagements />
+      <OpeningQuestions />
+      <Checkmate />
+      <Footer />
+    </main>
   );
 }
