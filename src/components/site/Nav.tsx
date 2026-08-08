@@ -36,7 +36,7 @@ export function Nav() {
       }`}
     >
       {/* Always short on mobile */}
-      <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-1.5 sm:px-4 sm:py-2">
+      <nav className="grid h-11 grid-cols-[auto_1fr_auto] items-center gap-3 px-3 sm:h-auto sm:px-4 sm:py-2">
         <Link to="/" aria-label="thedesigngrandmaster home" data-cursor="TOP" className="flex shrink-0 items-center">
           <img
             src="/logo/tdg-logomark-ivory.svg"
@@ -74,7 +74,7 @@ export function Nav() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-border md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border md:hidden"
           >
             <span className="relative block h-3 w-4">
               <span
