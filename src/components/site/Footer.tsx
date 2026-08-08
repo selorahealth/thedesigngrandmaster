@@ -9,10 +9,11 @@ function SwapLink({
   to,
   children,
 }: {
-  href?: string;
-  to?: string;
+  href?: string | undefined;
+  to?: string | undefined;
   children: string;
 }) {
+
   const cls =
     "swap-link font-sans text-[13px] font-medium text-muted-foreground";
   const inner = (
@@ -35,15 +36,12 @@ function SwapLink({
   );
 }
 
-const boardLinks = projects.slice(0, 5);
-
 const columns: { title: string; links: { label: string; to?: string; href?: string }[] }[] = [
   {
     title: "The board",
-    links: [
-      ...boardLinks.map((p) => ({ label: p.name, to: undefined, href: undefined })),
-    ].map((l, i) => ({ label: l.label, to: `/work/${boardLinks[i]?.slug ?? ""}` })),
+    links: projects.slice(0, 5).map((p) => ({ label: p.name, to: `/work/${p.slug}` })),
   },
+
   {
     title: "Services",
     links: [
