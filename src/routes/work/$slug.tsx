@@ -43,7 +43,7 @@ function Meta({ label, value }: { label: string; value: string }) {
 }
 
 function CaseStudy() {
-  const { project } = Route.useLoaderData();
+  const { project } = Route.useLoaderData() as { project: Project };
   const index = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(index + 1) % projects.length]!;
 
@@ -103,7 +103,7 @@ function CaseStudy() {
           <div className="grid gap-6 border-b border-border pb-10 sm:grid-cols-[110px_minmax(0,1fr)] sm:gap-14">
             <p className="eyebrow">The brief</p>
             <div className="max-w-2xl space-y-4">
-              {project.brief.map((b) => (
+              {project.brief.map((b: string) => (
                 <p key={b} className="text-base leading-relaxed sm:text-lg">
                   {b}
                 </p>
@@ -111,7 +111,7 @@ function CaseStudy() {
             </div>
           </div>
 
-          {project.sections.map((s) => (
+          {project.sections.map((s: Project["sections"][number]) => (
             <div
               key={s.label}
               className="grid gap-4 border-b border-border py-10 sm:grid-cols-[110px_minmax(0,1fr)] sm:gap-14"
@@ -122,7 +122,7 @@ function CaseStudy() {
                   {s.title}
                 </h2>
                 <div className="mt-4 space-y-4">
-                  {s.body.map((b) => (
+                  {s.body.map((b: string) => (
                     <p key={b} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                       {b}
                     </p>
@@ -133,7 +133,7 @@ function CaseStudy() {
           ))}
 
           <div className="grid gap-8 pt-12 sm:grid-cols-2 sm:gap-14">
-            {project.outcomes.map((o) => (
+            {project.outcomes.map((o: { value: string; label: string }) => (
               <div key={o.label}>
                 <p className="display text-[clamp(2.25rem,10vw,4rem)]">{o.value}</p>
                 <p className="eyebrow mt-2">{o.label}</p>
