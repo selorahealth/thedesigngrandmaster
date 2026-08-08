@@ -27,7 +27,7 @@ export function Nav() {
   }, [open]);
 
   return (
-  <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-5 sm:pt-5">
+  <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center p-3 sm:p-5">
     <div
       className={`pointer-events-auto w-full max-w-[980px] rounded-full border transition-all duration-500 ${
         scrolled
