@@ -41,7 +41,7 @@ export function Nav() {
           <img
             src="/logo/tdg-logomark-ivory.svg"
             alt="thedesigngrandmaster"
-            className="h-6 w-auto sm:h-8"
+            className="h-7 w-auto sm:h-8"
           />
         </Link>
 
@@ -74,7 +74,7 @@ export function Nav() {
             aria-label="Toggle menu"
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border md:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-border md:hidden"
           >
             <span className="relative block h-3 w-4">
               <span
