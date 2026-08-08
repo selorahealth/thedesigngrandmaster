@@ -1,20 +1,72 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { site } from "@/lib/site";
+import { projects } from "@/data/projects";
 
-function SwapLink({ href, children }: { href: string; children: string }) {
-  return (
-    <a href={href} data-cursor="OPEN" className="swap-link font-mono text-[11px] tracking-[0.14em] uppercase text-muted-foreground">
+function SwapLink({
+  href,
+  to,
+  children,
+}: {
+  href?: string | undefined;
+  to?: string | undefined;
+  children: string;
+}) {
+
+  const cls =
+    "swap-link font-sans text-[13px] font-medium text-muted-foreground";
+  const inner = (
+    <>
       <span className="swap-top">{children}</span>
       <span className="swap-bottom">{children}</span>
+    </>
+  );
+  if (to) {
+    return (
+      <Link to={to} data-cursor="OPEN" className={cls}>
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <a href={href} data-cursor="OPEN" target={href?.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={cls}>
+      {inner}
     </a>
   );
 }
 
-const columns = [
-  { title: "Projects", links: [{ label: "The board", href: "#work" }, { label: "Suise", href: "https://suise.vercel.app/" }, { label: "A01Luxe", href: "https://a01luxe.vercel.app/" }] },
-  { title: "Services", links: [{ label: "Repertoire", href: "#repertoire" }, { label: "Web design", href: "#repertoire" }, { label: "Engineering", href: "#repertoire" }] },
-  { title: "Process", links: [{ label: "The game plan", href: "#process" }, { label: "Opening questions", href: "#process" }] },
-  { title: "Engagements", links: [{ label: "Monthly partnership", href: "#contact" }, { label: "Fixed project", href: "#contact" }] },
+const columns: { title: string; links: { label: string; to?: string; href?: string }[] }[] = [
+  {
+    title: "The board",
+    links: projects.slice(0, 5).map((p) => ({ label: p.name, to: `/work/${p.slug}` })),
+  },
+
+  {
+    title: "Services",
+    links: [
+      { label: "Web design", to: "/repertoire" },
+      { label: "Branding", to: "/repertoire" },
+      { label: "B2B", to: "/repertoire" },
+      { label: "Product design", to: "/repertoire" },
+      { label: "Consulting", to: "/repertoire" },
+      { label: "Graphic design", to: "/repertoire" },
+    ],
+  },
+  {
+    title: "Process",
+    links: [
+      { label: "The game plan", to: "/process" },
+      { label: "Opening questions", to: "/process" },
+    ],
+  },
+  {
+    title: "Engagements",
+    links: [
+      { label: "Monthly partnership", to: "/contact" },
+      { label: "Fixed project", to: "/contact" },
+    ],
+  },
 ];
 
 export function Footer() {
@@ -26,7 +78,7 @@ export function Footer() {
     if (!email) return;
     setState("sending");
     const { error } = await supabase.from("newsletter_subscribers").insert({ email });
-    if (error && !error.message.includes("duplicate")) {
+    if (error && !error.message.toLowerCase().includes("duplicate")) {
       setState("error");
       return;
     }
@@ -35,29 +87,35 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-border py-16">
-      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+    <footer className="border-t border-border py-14 sm:py-16">
+      <div className="shell">
         <div className="grid gap-12 lg:grid-cols-[1fr_2fr_1fr]">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg leading-none text-primary">&#9817;</span>
-              <span className="font-mono text-xs tracking-[0.16em]">thedesigngrandmaster</span>
-            </div>
-            <div className="mt-6 flex flex-col gap-2">
-              <SwapLink href="mailto:hello@thedesigngrandmaster.com">
-                hello@thedesigngrandmaster.com
-              </SwapLink>
-              <SwapLink href="https://wa.me/2348000000000">WhatsApp</SwapLink>
+            <Link to="/" aria-label="thedesigngrandmaster home" className="flex items-center gap-3">
+              <img
+                src="/logo/tdg-logomark-ivory.svg"
+                alt=""
+                aria-hidden="true"
+                className="h-8 w-auto shrink-0"
+              />
+              <span className="text-lg leading-none tracking-tight">
+                <span className="font-semibold text-muted-foreground">thedesign</span>
+                <span className="font-extrabold text-foreground">grandmaster</span>
+              </span>
+            </Link>
+            <div className="mt-6 flex flex-col items-start gap-2">
+              <SwapLink href={`mailto:${site.email}`}>{site.email}</SwapLink>
+              <SwapLink href={site.x}>{site.handle}</SwapLink>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {columns.map((c) => (
-              <div key={c.title}>
+              <div key={c.title} className="min-w-0">
                 <p className="eyebrow">{c.title}</p>
-                <div className="mt-4 flex flex-col gap-2">
+                <div className="mt-4 flex flex-col items-start gap-2">
                   {c.links.map((l) => (
-                    <SwapLink key={l.label + l.href} href={l.href}>
+                    <SwapLink key={c.title + l.label} to={l.to} href={l.href}>
                       {l.label}
                     </SwapLink>
                   ))}
@@ -71,19 +129,19 @@ export function Footer() {
             <p className="mt-4 text-sm text-muted-foreground">
               Subscribe for new work, once a month.
             </p>
-            <form onSubmit={subscribe} className="mt-4 flex">
+            <form onSubmit={subscribe} className="mt-4 flex overflow-hidden rounded-full border border-border">
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@email.com"
-                className="min-w-0 flex-1 border border-border bg-card px-3 py-2.5 text-sm outline-none placeholder:text-muted-foreground focus:border-primary"
+                className="min-w-0 flex-1 bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-muted-foreground"
               />
               <button
                 type="submit"
                 data-cursor="&#8594;"
-                className="bg-primary px-4 font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
+                className="bg-primary px-5 font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
               >
                 Join
               </button>
@@ -99,14 +157,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
+        <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-            &copy; {new Date().getFullYear()} thedesigngrandmaster
+            Copyright (c) {new Date().getFullYear()} Thedesigngrandmaster
           </p>
           <div className="flex gap-6">
-            <SwapLink href="https://x.com">X</SwapLink>
-            <SwapLink href="https://instagram.com">Instagram</SwapLink>
-            <SwapLink href="https://linkedin.com">LinkedIn</SwapLink>
+            <SwapLink href={site.x}>X</SwapLink>
+            <SwapLink href={site.instagram}>Instagram</SwapLink>
           </div>
         </div>
       </div>

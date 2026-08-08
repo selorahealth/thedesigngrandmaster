@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import cursorMark from "@/assets/custom-cursor.svg";
 
+/**
+ * tdg monogram cursor. Default bone, cobalt on interactive targets,
+ * brief vermilion flash on click.
+ */
 export function Cursor() {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const [label, setLabel] = useState<string | null>(null);
-  const [active, setActive] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
+  const [hot, setHot] = useState(false);
+  const [click, setClick] = useState(false);
 
   useEffect(() => {
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouch) return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     setEnabled(true);
     document.documentElement.classList.add("cursor-none-root");
 
@@ -17,35 +21,39 @@ export function Cursor() {
     let x = mouseX;
     let y = mouseY;
     let raf = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>("[data-cursor]");
-      if (el) {
-        setActive(true);
-        setLabel(el.dataset["cursor"] || null);
-      } else {
-        setActive(false);
-        setLabel(null);
-      }
+      const target = e.target as HTMLElement | null;
+      setHot(Boolean(target?.closest("a, button, [data-cursor], [role='button']")));
+    };
+
+    const onDown = () => {
+      setClick(true);
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => setClick(false), 220);
     };
 
     const tick = () => {
-      x += (mouseX - x) * 0.16;
-      y += (mouseY - y) * 0.16;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+      x += (mouseX - x) * 0.22;
+      y += (mouseY - y) * 0.22;
+      if (wrapRef.current) {
+        wrapRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       }
       raf = requestAnimationFrame(tick);
     };
 
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousedown", onDown);
     raf = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onDown);
       cancelAnimationFrame(raf);
+      if (timer) clearTimeout(timer);
       document.documentElement.classList.remove("cursor-none-root");
     };
   }, []);
@@ -54,21 +62,28 @@ export function Cursor() {
 
   return (
     <div
-      ref={dotRef}
+      ref={wrapRef}
       aria-hidden="true"
       className="pointer-events-none fixed left-0 top-0 z-[100] hidden md:block"
     >
       <div
-        className={`flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
-          active
-            ? "h-16 w-16 bg-foreground mix-blend-difference"
-            : "h-3.5 w-3.5 bg-primary ring-1 ring-primary/40 ring-offset-4 ring-offset-transparent"
-        }`}
-      >
-        {active && label ? (
-          <span className="font-mono text-[10px] tracking-[0.18em] text-background">{label}</span>
-        ) : null}
-      </div>
+        className={`transition-transform duration-200 ease-out ${click ? "scale-90" : hot ? "scale-110" : "scale-100"}`}
+        style={{
+          width: 18,
+          height: 24,
+          backgroundColor: click
+            ? "var(--vermilion)"
+            : hot
+              ? "var(--cobalt)"
+              : "var(--foreground)",
+          maskImage: `url(${cursorMark})`,
+          WebkitMaskImage: `url(${cursorMark})`,
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+        }}
+      />
     </div>
   );
 }

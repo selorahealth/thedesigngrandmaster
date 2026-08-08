@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useReveal } from "./useReveal";
+import { site } from "@/lib/site";
 import queen from "@/assets/queen.png";
 
-export function Checkmate() {
+export function Checkmate({ heading = "Tell us what you're building." }: { heading?: string }) {
   const ref = useReveal<HTMLDivElement>();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +26,7 @@ export function Checkmate() {
 
     if (insertError) {
       setStatus("error");
-      setError("That did not send. Try again, or email hello@thedesigngrandmaster.com.");
+      setError(`That did not send. Try again, or email ${site.email}.`);
       return;
     }
 
@@ -33,8 +34,15 @@ export function Checkmate() {
     setStatus("sent");
   }
 
+  const field =
+    "w-full rounded-lg border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary";
+
   return (
-    <section id="contact" ref={ref} className="relative overflow-hidden border-t border-border py-24 lg:py-32">
+    <section
+      id="contact"
+      ref={ref}
+      className="section-y relative overflow-hidden border-t border-border bg-ink"
+    >
       <img
         src={queen}
         alt=""
@@ -42,59 +50,46 @@ export function Checkmate() {
         loading="lazy"
         width={1024}
         height={1024}
-        className="pointer-events-none absolute left-1/2 top-1/2 w-[680px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.07]"
+        className="pointer-events-none absolute left-1/2 top-1/2 w-[540px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.07] mix-blend-screen sm:w-[680px]"
       />
-      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10">
+      <div className="shell relative">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow reveal">Checkmate</p>
-          <h2 className="display reveal mt-5 text-[clamp(2.5rem,6vw,4.5rem)]">
-            Tell us what you&#39;re building.
+          <h2 className="display reveal mt-4 text-[clamp(2.1rem,9vw,4.5rem)] sm:text-[clamp(2.5rem,6vw,4.5rem)]">
+            {heading}
           </h2>
-          <p className="reveal mt-5 text-muted-foreground">
+          <p className="reveal mt-5 text-sm text-muted-foreground sm:text-base">
             Send the brief, the budget range and the deadline. You will get a real answer, not a
             pitch deck.
           </p>
+          <a
+            href={`mailto:${site.email}`}
+            className="reveal mt-4 inline-block font-mono text-[11px] tracking-[0.14em] text-primary"
+          >
+            {site.email}
+          </a>
         </div>
 
-        <form onSubmit={onSubmit} className="reveal mx-auto mt-14 max-w-2xl">
+        <form onSubmit={onSubmit} className="reveal mx-auto mt-10 max-w-2xl sm:mt-14">
           <div className="grid gap-4 sm:grid-cols-2">
-            <input
-              name="name"
-              required
-              placeholder="Name"
-              className="border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
-            />
-            <input
-              name="email"
-              type="email"
-              required
-              placeholder="Email"
-              className="border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
-            />
-            <input
-              name="company"
-              placeholder="Company (optional)"
-              className="border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
-            />
-            <input
-              name="budget"
-              placeholder="Budget range (optional)"
-              className="border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
-            />
+            <input name="name" required placeholder="Name" className={field} />
+            <input name="email" type="email" required placeholder="Email" className={field} />
+            <input name="company" placeholder="Company (optional)" className={field} />
+            <input name="budget" placeholder="Budget range (optional)" className={field} />
           </div>
           <textarea
             name="message"
             required
             rows={5}
             placeholder="What are you building?"
-            className="mt-4 w-full border border-border bg-card px-4 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"
+            className={`${field} mt-4`}
           />
-          <div className="mt-6 flex flex-wrap items-center gap-4">
+          <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <button
               type="submit"
               data-cursor="&#8594;"
               disabled={status === "sending"}
-              className="bg-primary px-7 py-3.5 font-mono text-[11px] tracking-[0.16em] uppercase text-primary-foreground transition-opacity hover:opacity-85 disabled:opacity-50"
+              className="w-full rounded-full bg-primary px-7 py-3.5 font-mono text-[11px] tracking-[0.16em] uppercase text-primary-foreground transition-opacity hover:opacity-85 disabled:opacity-50 sm:w-auto"
             >
               {status === "sending" ? "Sending" : "Book a call"}
             </button>
