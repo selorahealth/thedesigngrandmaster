@@ -29,14 +29,14 @@ export function Nav() {
   return (
   <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center p-3 sm:p-5">
     <div
-      className={`pointer-events-auto w-full max-w-[980px] h-11 rounded-full border transition-all duration-500 ${
+      className={`pointer-events-auto w-full max-w-[980px] h-12 rounded-full border transition-all duration-500 ${
       scrolled
         ? "border-border bg-background/60 shadow-[0_10px_40px_-20px_oklch(0_0_0/0.8)] backdrop-blur-xl"
         : "border-border/50 bg-background/80 backdrop-blur-xl md:border-transparent md:bg-background/25 md:backdrop-blur-md"
     }`}
     >
       {/* Always short on mobile */}
-      <nav className="grid h-11 grid-cols-[auto_1fr_auto] items-center gap-3 px-3 sm:h-auto sm:px-4 sm:py-2">
+      <nav className="grid h-full grid-cols-[auto_1fr_auto] items-center gap-3 px-3 sm:h-auto sm:px-4 sm:py-2">
         <Link to="/" aria-label="thedesigngrandmaster home" data-cursor="TOP" className="flex shrink-0 items-center">
           <img
             src="/logo/tdg-logomark-ivory.svg"
