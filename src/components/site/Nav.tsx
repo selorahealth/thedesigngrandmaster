@@ -30,12 +30,12 @@ export function Nav() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-5 sm:pt-5">
       <div
         className={`pointer-events-auto w-full max-w-[980px] rounded-full border transition-all duration-500 ${
-          scrolled
-            ? "border-border bg-background/60 shadow-[0_10px_40px_-20px_oklch(0_0_0/0.8)] backdrop-blur-xl"
-            : "border-transparent bg-background/25 backdrop-blur-md"
-        }`}
+  scrolled
+    ? "border-border bg-background/60 shadow-[0_10px_40px_-20px_oklch(0_0_0/0.8)] backdrop-blur-xl"
+    : "border-border/60 bg-background/70 backdrop-blur-xl md:border-transparent md:bg-background/25 md:backdrop-blur-md"
+}`}
       >
-        <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-2 sm:px-4">
+        <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-1.5 sm:px-4 sm:py-2">
           <Link to="/" aria-label="thedesigngrandmaster home" data-cursor="TOP" className="flex shrink-0 items-center">
             <img
               src="/logo/tdg-logomark-ivory.svg"
