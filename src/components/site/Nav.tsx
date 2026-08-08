@@ -1,90 +1,119 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 const links = [
-  { label: "Work", href: "#work" },
-  { label: "Repertoire", href: "#repertoire" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work", to: "/work" },
+  { label: "Repertoire", to: "/repertoire" },
+  { label: "Process", to: "/process" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function Nav() {
-  const [solid, setSolid] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        solid ? "border-b border-border bg-background/90 backdrop-blur-xl" : "bg-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 lg:px-10">
-        <a href="#top" data-cursor="TOP" className="flex items-center gap-2">
-          <span className="text-lg leading-none text-primary">&#9817;</span>
-          <span className="font-mono text-xs tracking-[0.16em] text-foreground">
-            thedesigngrandmaster
-          </span>
-        </a>
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-5 sm:pt-5">
+      <div
+        className={`pointer-events-auto w-full max-w-[980px] rounded-full border transition-all duration-500 ${
+          scrolled
+            ? "border-border bg-background/60 shadow-[0_10px_40px_-20px_oklch(0_0_0/0.8)] backdrop-blur-xl"
+            : "border-transparent bg-background/25 backdrop-blur-md"
+        }`}
+      >
+        <nav className="grid grid-cols-[auto_1fr_auto] items-center gap-3 px-3 py-2 sm:px-4">
+          <Link to="/" aria-label="thedesigngrandmaster home" data-cursor="TOP" className="flex shrink-0 items-center">
+            <img
+              src="/logo/tdg-logomark-ivory.svg"
+              alt="thedesigngrandmaster"
+              className="h-7 w-auto sm:h-8"
+            />
+          </Link>
 
-        <div className="hidden items-center gap-9 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              data-cursor="OPEN"
-              className="font-mono text-[11px] tracking-[0.18em] uppercase text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            data-cursor="&#8594;"
-            className="bg-primary px-5 py-2.5 font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground transition-opacity hover:opacity-85"
-          >
-            Start a project
-          </a>
-        </div>
-
-        <button
-          type="button"
-          aria-label="Toggle menu"
-          onClick={() => setOpen((v) => !v)}
-          className="font-mono text-[11px] tracking-[0.18em] uppercase text-foreground md:hidden"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-      </nav>
-
-      {open ? (
-        <div className="border-t border-border bg-background px-6 py-6 md:hidden">
-          <div className="flex flex-col gap-5">
+          <div className="hidden items-center justify-center gap-1 md:flex">
             {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="font-mono text-xs tracking-[0.18em] uppercase text-muted-foreground"
+              <Link
+                key={l.to}
+                to={l.to}
+                data-cursor="OPEN"
+                activeProps={{ className: "text-foreground" }}
+                inactiveProps={{ className: "text-muted-foreground" }}
+                className="rounded-full px-3.5 py-2 font-mono text-[11px] tracking-[0.16em] uppercase transition-colors hover:text-foreground"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="bg-primary px-5 py-3 text-center font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
+          </div>
+
+          <div className="flex items-center justify-end gap-2">
+            <Link
+              to="/contact"
+              data-cursor="&#8594;"
+              className="hidden rounded-full bg-primary px-5 py-2.5 font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground transition-opacity hover:opacity-85 sm:inline-block"
             >
               Start a project
-            </a>
+            </Link>
+            <button
+              type="button"
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border md:hidden"
+            >
+              <span className="relative block h-3 w-4">
+                <span
+                  className={`absolute left-0 h-px w-4 bg-foreground transition-all duration-300 ${open ? "top-1.5 rotate-45" : "top-0"}`}
+                />
+                <span
+                  className={`absolute left-0 h-px w-4 bg-foreground transition-all duration-300 ${open ? "top-1.5 -rotate-45" : "top-3"}`}
+                />
+              </span>
+            </button>
+          </div>
+        </nav>
+
+        <div
+          className={`grid overflow-hidden transition-all duration-400 md:hidden ${
+            open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="px-5 pb-5">
+            <div className="flex flex-col gap-1 border-t border-border pt-4">
+              {links.map((l) => (
+                <Link
+                  key={l.to}
+                  to={l.to}
+                  onClick={() => setOpen(false)}
+                  className="py-2.5 font-mono text-xs tracking-[0.18em] uppercase text-muted-foreground"
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="mt-3 rounded-full bg-primary px-5 py-3 text-center font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
+              >
+                Start a project
+              </Link>
+            </div>
           </div>
         </div>
-      ) : null}
+      </div>
     </header>
   );
 }
