@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import cursorMark from "@/assets/custom-cursor.svg";
+import cursorMark from "@/assets/custom-cursor.png";
 
 /**
  * tdg monogram cursor. Default bone, cobalt on interactive targets,
