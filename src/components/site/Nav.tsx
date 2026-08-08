@@ -41,7 +41,7 @@ export function Nav() {
           <img
             src="/logo/tdg-logomark-ivory.svg"
             alt="thedesigngrandmaster"
-            className="h-7 w-auto sm:h-8"
+            className="block h-7 w-auto"
           />
         </Link>
 
