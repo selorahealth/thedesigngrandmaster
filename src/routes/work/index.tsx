@@ -1,42 +1,77 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageShell, PageHeader } from "@/components/site/PageShell";
-import { TheBoard } from "@/components/site/TheBoard";
-import { Checkmate } from "@/components/site/Checkmate";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageShell } from "@/components/site/PageShell";
+import { WorkArchive } from "@/components/site/WorkArchive";
+import { projectsQuery, useCopy, contentQuery } from "@/lib/cms";
 import { site } from "@/lib/site";
 
 export const Route = createFileRoute("/work/")({
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(projectsQuery),
+      context.queryClient.ensureQueryData(contentQuery),
+    ]);
+    return null;
+  },
   head: () => ({
     meta: [
-      { title: "Work — thedesigngrandmaster" },
+      { title: "Work — case studies by thedesigngrandmaster" },
       {
         name: "description",
         content:
-          "Fourteen live builds across fintech, health, retail and media. Websites, dashboards and brand identities designed and engineered end to end.",
+          "Search and filter the full archive: UX research, product design, brand identity and graphic design case studies across fintech, health, retail and media.",
       },
-      { property: "og:title", content: "Work — thedesigngrandmaster" },
+      { property: "og:title", content: "Work — case studies by thedesigngrandmaster" },
       {
         property: "og:description",
-        content: "The full portfolio: fourteen live builds you can open right now.",
+        content: "The full archive of live builds, filterable by discipline.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://screen-magic-mirror-73.lovable.app/work" },
       { property: "og:image", content: site.ogImage },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: site.ogImage },
     ],
+    links: [{ rel: "canonical", href: "https://screen-magic-mirror-73.lovable.app/work" }],
   }),
   component: WorkIndex,
 });
 
 function WorkIndex() {
+  const copy = useCopy("work.header");
+
   return (
     <PageShell>
-      <PageHeader
-        eyebrow="The board"
-        title="Full portfolio."
-        intro="Fourteen live builds across fintech, health, retail and media. Open a case study to see the brief, the approach and the result."
-      />
-      <TheBoard full />
-      <Checkmate heading="Want one of these for your team?" />
+      <section className="bg-ink pt-28 pb-10 sm:pt-36 sm:pb-14 lg:pt-44">
+        <div className="shell">
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h1 className="display mt-4 text-[clamp(2.25rem,10vw,5rem)] sm:text-[clamp(2.75rem,6vw,5rem)]">
+            {copy.title}
+          </h1>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {copy.intro}
+          </p>
+        </div>
+      </section>
+
+      <WorkArchive />
+
+      <section className="on-bone border-t border-border py-16 sm:py-20">
+        <div className="shell flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="eyebrow">Next move</p>
+            <h2 className="display mt-3 text-[clamp(1.75rem,7vw,3rem)]">
+              Your project belongs on this board.
+            </h2>
+          </div>
+          <Link
+            to="/contact"
+            data-cursor="→"
+            className="shrink-0 rounded-full bg-primary px-8 py-4 text-center font-mono text-[11px] tracking-[0.16em] uppercase text-primary-foreground transition-opacity hover:opacity-85"
+          >
+            Start a project
+          </Link>
+        </div>
+      </section>
     </PageShell>
   );
 }
