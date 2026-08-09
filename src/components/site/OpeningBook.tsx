@@ -15,23 +15,37 @@ const logos = [
   { name: "Women in Leadership", src: wil },
 ];
 
+function Row({ ariaHidden }: { ariaHidden?: boolean }) {
+  return (
+    <div
+      className="flex shrink-0 items-center gap-12 pr-12 sm:gap-20 sm:pr-20"
+      aria-hidden={ariaHidden ? "true" : undefined}
+    >
+      {logos.map((l) => (
+        <img
+          key={l.name}
+          src={l.src}
+          alt={ariaHidden ? "" : `${l.name} logo`}
+          loading="lazy"
+          className="h-14 w-auto max-w-[200px] shrink-0 object-contain opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-20"
+        />
+      ))}
+    </div>
+  );
+}
+
 export function OpeningBook() {
   const ref = useReveal<HTMLDivElement>();
 
   return (
-    <section ref={ref} className="border-y border-border py-10 sm:py-12">
+    <section id="opening-book" ref={ref} className="border-y border-border py-10 sm:py-14">
       <div className="shell">
         <p className="eyebrow reveal">Opening book</p>
-        <div className="reveal mt-6 grid grid-cols-3 items-center gap-x-6 gap-y-8 sm:grid-cols-6 sm:gap-x-10">
-          {logos.map((l) => (
-            <img
-              key={l.name}
-              src={l.src}
-              alt={`${l.name} logo`}
-              loading="lazy"
-              className="h-8 w-full max-w-[120px] object-contain opacity-45 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:h-10"
-            />
-          ))}
+      </div>
+      <div className="marquee reveal mt-7 sm:mt-9">
+        <div className="marquee-track">
+          <Row />
+          <Row ariaHidden />
         </div>
       </div>
     </section>

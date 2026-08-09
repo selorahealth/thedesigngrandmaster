@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useReveal } from "./useReveal";
 import { DeviceFrame } from "./DeviceFrame";
-import { featuredProjects, projects as allProjects, type Project } from "@/data/projects";
+import { useProjects, type CmsProject } from "@/lib/cms";
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project }: { project: CmsProject }) {
   return (
     <Link
       to="/work/$slug"
@@ -31,9 +31,11 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 }
 
-export function TheBoard({ full = false }: { full?: boolean }) {
+/** Home-page board: a short, curated selection with a route to the archive. */
+export function TheBoard() {
   const ref = useReveal<HTMLDivElement>();
-  const list = full ? allProjects : featuredProjects;
+  const projects = useProjects();
+  const list = projects.slice(0, 4);
 
   return (
     <section id="work" ref={ref} className="section-y">
@@ -43,9 +45,8 @@ export function TheBoard({ full = false }: { full?: boolean }) {
           The board.
         </h2>
         <p className="reveal mt-4 max-w-xl text-sm text-muted-foreground sm:text-base">
-          {full
-            ? "Fourteen live builds across fintech, health, retail and media. Every one of them is a working product you can open right now."
-            : "A short selection. Fourteen live builds sit behind it, across fintech, health, retail and media."}
+          A short selection. {projects.length} live builds sit behind it, across fintech, health,
+          retail and media.
         </p>
 
         <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 lg:grid-cols-2">
@@ -54,17 +55,15 @@ export function TheBoard({ full = false }: { full?: boolean }) {
           ))}
         </div>
 
-        {!full ? (
-          <div className="reveal mt-10 flex justify-center sm:mt-14">
-            <Link
-              to="/work"
-              data-cursor="&#8594;"
-              className="rounded-full border border-border px-8 py-4 font-mono text-[11px] tracking-[0.16em] uppercase transition-colors hover:border-primary hover:text-primary"
-            >
-              View full portfolio
-            </Link>
-          </div>
-        ) : null}
+        <div className="reveal mt-10 flex justify-center sm:mt-14">
+          <Link
+            to="/work"
+            data-cursor="&#8594;"
+            className="rounded-full border border-border px-8 py-4 font-mono text-[11px] tracking-[0.16em] uppercase transition-colors hover:border-primary hover:text-primary"
+          >
+            View full portfolio
+          </Link>
+        </div>
       </div>
     </section>
   );

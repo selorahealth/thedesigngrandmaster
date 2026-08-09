@@ -62,15 +62,133 @@ export type Database = {
         }
         Relationships: []
       }
+      projects: {
+        Row: {
+          brief: Json
+          category: string
+          created_at: string
+          device: string
+          id: string
+          industry: string
+          name: string
+          outcomes: Json
+          published: boolean
+          screen: string
+          second_device: string | null
+          second_screen: string | null
+          sections: Json
+          services: Json
+          slug: string
+          sort_order: number
+          summary: string
+          tech: Json
+          updated_at: string
+          url: string
+          year: string
+        }
+        Insert: {
+          brief?: Json
+          category?: string
+          created_at?: string
+          device?: string
+          id?: string
+          industry?: string
+          name: string
+          outcomes?: Json
+          published?: boolean
+          screen?: string
+          second_device?: string | null
+          second_screen?: string | null
+          sections?: Json
+          services?: Json
+          slug: string
+          sort_order?: number
+          summary?: string
+          tech?: Json
+          updated_at?: string
+          url?: string
+          year?: string
+        }
+        Update: {
+          brief?: Json
+          category?: string
+          created_at?: string
+          device?: string
+          id?: string
+          industry?: string
+          name?: string
+          outcomes?: Json
+          published?: boolean
+          screen?: string
+          second_device?: string | null
+          second_screen?: string | null
+          sections?: Json
+          services?: Json
+          slug?: string
+          sort_order?: number
+          summary?: string
+          tech?: Json
+          updated_at?: string
+          url?: string
+          year?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_site_admin: { Args: never; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -197,6 +315,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor"],
+    },
   },
 } as const
