@@ -58,9 +58,9 @@ export const Route = createFileRoute("/work/$slug")({
 });
 
 function CaseStudy() {
-  const { project } = Route.useLoaderData();
+  const { project } = Route.useLoaderData() as { project: CmsProject };
   const projects = useProjects();
-  const live = projects.find((p) => p.slug === project.slug) ?? project;
+  const live: CmsProject = projects.find((p) => p.slug === project.slug) ?? project;
   const related = projects.filter((p) => p.slug !== live.slug).slice(0, 3);
   const [zoom, setZoom] = useState<string | null>(null);
 
