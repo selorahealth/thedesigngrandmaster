@@ -24,12 +24,32 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [busy, setBusy] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    setNotice(null);
+
+    if (mode === "signup") {
+      const { error: err } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
+      });
+      setBusy(false);
+      if (err) {
+        setError(err.message);
+        return;
+      }
+      setNotice("Check your inbox and confirm the address, then sign in.");
+      setMode("signin");
+      return;
+    }
+
     const { error: err } = await supabase.auth.signInWithPassword({ email, password });
     setBusy(false);
     if (err) {
@@ -38,6 +58,7 @@ function AuthPage() {
     }
     void navigate({ to: "/admin" });
   };
+
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-5 py-24">
