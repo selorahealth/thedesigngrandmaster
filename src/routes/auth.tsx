@@ -70,7 +70,9 @@ function AuthPage() {
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
             Studio access
           </p>
-          <h1 className="font-display text-2xl text-foreground">Sign in</h1>
+          <h1 className="font-display text-2xl text-foreground">
+            {mode === "signin" ? "Sign in" : "Create your admin account"}
+          </h1>
         </div>
 
         <label className="block space-y-2">
@@ -93,6 +95,7 @@ function AuthPage() {
           <input
             type="password"
             required
+            minLength={8}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
@@ -100,10 +103,24 @@ function AuthPage() {
         </label>
 
         {error && <p className="text-sm text-destructive">{error}</p>}
+        {notice && <p className="text-sm text-primary">{notice}</p>}
 
         <Button type="submit" disabled={busy} className="w-full">
-          {busy ? "Signing in…" : "Sign in"}
+          {busy
+            ? "Working…"
+            : mode === "signin"
+              ? "Sign in"
+              : "Create account"}
         </Button>
+
+        <button
+          type="button"
+          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+          className="w-full font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground"
+        >
+          {mode === "signin" ? "First time? Create your account" : "Already have an account? Sign in"}
+        </button>
+
       </form>
     </main>
   );
