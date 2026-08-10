@@ -18,6 +18,7 @@ import { Route as RepertoireRouteImport } from './routes/repertoire'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
 import { Route as AuthenticatedAdminProjectsSlugRouteImport } from './routes/_authenticated/admin/projects.$slug'
 
@@ -65,6 +66,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
+  id: '/admin/media',
+  path: '/admin/media',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminPagesRoute = AuthenticatedAdminPagesRouteImport.update({
   id: '/admin/pages',
   path: '/admin/pages',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work': typeof WorkIndexRoute
+  '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/admin/media'
     | '/admin/pages'
     | '/admin/'
     | '/admin/projects/$slug'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work'
+    | '/admin/media'
     | '/admin/pages'
     | '/admin'
     | '/admin/projects/$slug'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/_authenticated/admin/media'
     | '/_authenticated/admin/pages'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/projects/$slug'
@@ -231,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/media': {
+      id: '/_authenticated/admin/media'
+      path: '/admin/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AuthenticatedAdminMediaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/pages': {
       id: '/_authenticated/admin/pages'
       path: '/admin/pages'
@@ -249,12 +268,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProjectsSlugRoute: typeof AuthenticatedAdminProjectsSlugRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProjectsSlugRoute: AuthenticatedAdminProjectsSlugRoute,
