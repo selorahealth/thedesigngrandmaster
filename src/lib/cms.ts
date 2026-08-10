@@ -62,24 +62,39 @@ export function toProject(row: Row): CmsProject {
 
 export const projectsQuery = queryOptions({
   queryKey: ["cms", "projects"],
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+  retry: 0,
   queryFn: async (): Promise<CmsProject[]> => {
-    const rows = (await listProjectRows()) as Row[];
-    if (!rows.length) return defaultProjects as CmsProject[];
-    return rows.map(toProject);
+    try {
+      const rows = (await listProjectRows()) as Row[];
+      if (!rows.length) return defaultProjects as CmsProject[];
+      return rows.map(toProject);
+    } catch {
+      return defaultProjects as CmsProject[];
+    }
   },
 });
 
 export const contentQuery = queryOptions({
   queryKey: ["cms", "content"],
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+  retry: 0,
   queryFn: async (): Promise<Record<string, PageCopy>> => {
-    const rows = (await listContentRows()) as { key: string; value: PageCopy }[];
     const merged: Record<string, PageCopy> = { ...defaultContent };
-    for (const row of rows) {
-      merged[row.key] = { ...(merged[row.key] ?? {}), ...(row.value ?? {}) };
+    try {
+      const rows = (await listContentRows()) as { key: string; value: PageCopy }[];
+      for (const row of rows) {
+        merged[row.key] = { ...(merged[row.key] ?? {}), ...(row.value ?? {}) };
+      }
+    } catch {
+      /* fall back to bundled copy */
     }
     return merged;
   },
 });
+
 
 export function useProjects(): CmsProject[] {
   useRealtimeContent();
