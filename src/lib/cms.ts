@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { queryOptions, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { queryOptions, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { listContentRows, listProjectRows } from "@/lib/cms.functions";
 import { resolveScreen } from "@/lib/screens";
@@ -62,35 +62,96 @@ export function toProject(row: Row): CmsProject {
 
 export const projectsQuery = queryOptions({
   queryKey: ["cms", "projects"],
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+  retry: 0,
   queryFn: async (): Promise<CmsProject[]> => {
-    const rows = (await listProjectRows()) as Row[];
-    if (!rows.length) return defaultProjects as CmsProject[];
-    return rows.map(toProject);
+    try {
+      const rows = (await listProjectRows()) as Row[];
+      if (!rows.length) return defaultProjects as CmsProject[];
+      return rows.map(toProject);
+    } catch {
+      return defaultProjects as CmsProject[];
+    }
   },
 });
 
 export const contentQuery = queryOptions({
   queryKey: ["cms", "content"],
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+  retry: 0,
   queryFn: async (): Promise<Record<string, PageCopy>> => {
-    const rows = (await listContentRows()) as { key: string; value: PageCopy }[];
     const merged: Record<string, PageCopy> = { ...defaultContent };
-    for (const row of rows) {
-      merged[row.key] = { ...(merged[row.key] ?? {}), ...(row.value ?? {}) };
+    try {
+      const rows = (await listContentRows()) as { key: string; value: PageCopy }[];
+      for (const row of rows) {
+        merged[row.key] = { ...(merged[row.key] ?? {}), ...(row.value ?? {}) };
+      }
+    } catch {
+      /* fall back to bundled copy */
+    }
+    return merged;
+  },
+});
+/**
+ * Preview mode: an admin appends `?preview=1` to any route and the page reads
+ * every row (drafts included) straight from the database instead of the
+ * published-only server function.
+ */
+export const previewProjectsQuery = queryOptions({
+  queryKey: ["cms", "projects", "preview"],
+  staleTime: 0,
+  retry: 0,
+  queryFn: async (): Promise<CmsProject[]> => {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .order("sort_order", { ascending: true });
+    if (error || !data?.length) return defaultProjects as CmsProject[];
+    return (data as Row[]).map(toProject);
+  },
+});
+
+export const previewContentQuery = queryOptions({
+  queryKey: ["cms", "content", "preview"],
+  staleTime: 0,
+  retry: 0,
+  queryFn: async (): Promise<Record<string, PageCopy>> => {
+    const merged: Record<string, PageCopy> = { ...defaultContent };
+    const { data } = await supabase.from("site_content").select("key,value");
+    for (const row of data ?? []) {
+      merged[row.key] = { ...(merged[row.key] ?? {}), ...((row.value ?? {}) as PageCopy) };
     }
     return merged;
   },
 });
 
+export function useIsPreview(): boolean {
+  const [preview, setPreview] = useState(false);
+  useEffect(() => {
+    setPreview(new URLSearchParams(window.location.search).get("preview") === "1");
+  }, []);
+  return preview;
+}
+
 export function useProjects(): CmsProject[] {
   useRealtimeContent();
-  return useSuspenseQuery(projectsQuery).data;
+  const preview = useIsPreview();
+  const published = useSuspenseQuery(projectsQuery).data;
+  const draft = useQuery({ ...previewProjectsQuery, enabled: preview });
+  return preview && draft.data ? draft.data : published;
 }
 
 export function useCopy(key: ContentKey): PageCopy {
   useRealtimeContent();
+  const preview = useIsPreview();
   const data = useSuspenseQuery(contentQuery).data;
-  return data[key] ?? defaultContent[key] ?? {};
+  const draft = useQuery({ ...previewContentQuery, enabled: preview });
+  const source = preview && draft.data ? draft.data : data;
+  return source[key] ?? defaultContent[key] ?? {};
 }
+
 
 /** Keeps the site in sync with admin edits without a refresh. */
 export function useRealtimeContent() {
