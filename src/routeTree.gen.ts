@@ -18,6 +18,7 @@ import { Route as RepertoireRouteImport } from './routes/repertoire'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminProjectsSlugRouteImport } from './routes/_authenticated/admin/projects.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -63,6 +64,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminProjectsSlugRoute =
+  AuthenticatedAdminProjectsSlugRouteImport.update({
+    id: '/admin/projects/$slug',
+    path: '/admin/projects/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,6 +91,7 @@ export interface FileRoutesByTo {
   '/work/$slug': typeof WorkSlugRoute
   '/work': typeof WorkIndexRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,6 +104,7 @@ export interface FileRoutesById {
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/work/'
     | '/admin/'
+    | '/admin/projects/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/work'
     | '/admin'
+    | '/admin/projects/$slug'
   id:
     | '__root__'
     | '/'
@@ -128,6 +140,7 @@ export interface FileRouteTypes {
     | '/work/$slug'
     | '/work/'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/projects/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,15 +219,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/projects/$slug': {
+      id: '/_authenticated/admin/projects/$slug'
+      path: '/admin/projects/$slug'
+      fullPath: '/admin/projects/$slug'
+      preLoaderRoute: typeof AuthenticatedAdminProjectsSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminProjectsSlugRoute: typeof AuthenticatedAdminProjectsSlugRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminProjectsSlugRoute: AuthenticatedAdminProjectsSlugRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
