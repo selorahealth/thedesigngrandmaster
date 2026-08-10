@@ -11,9 +11,25 @@ import { OpeningQuestions } from "@/components/site/OpeningQuestions";
 import { Checkmate } from "@/components/site/Checkmate";
 import { Footer } from "@/components/site/Footer";
 import { site } from "@/lib/site";
+import { contentQuery, projectsQuery } from "@/lib/cms";
 
 export const Route = createFileRoute("/")({
+  // Prime both CMS reads in parallel so the page never waterfalls on suspense.
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(projectsQuery),
+      context.queryClient.ensureQueryData(contentQuery),
+    ]);
+    return null;
+  },
+  errorComponent: ({ error }) => (
+    <div role="alert" className="p-10 text-sm text-muted-foreground">
+      {error.message}
+    </div>
+  ),
+  notFoundComponent: () => <div className="p-10 text-sm">Page not found.</div>,
   head: () => ({
+
     meta: [
       { title: "thedesigngrandmaster — Design and code studio" },
       {
