@@ -18,6 +18,7 @@ import { Route as RepertoireRouteImport } from './routes/repertoire'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin/audit'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
 import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated/admin/roles'
@@ -67,6 +68,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
   id: '/admin/media',
   path: '/admin/media',
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
@@ -111,6 +118,7 @@ export interface FileRoutesByTo {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work': typeof WorkIndexRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
@@ -127,6 +135,7 @@ export interface FileRoutesById {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
   '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/admin/audit'
     | '/admin/media'
     | '/admin/pages'
     | '/admin/roles'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work'
+    | '/admin/audit'
     | '/admin/media'
     | '/admin/pages'
     | '/admin/roles'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/_authenticated/admin/audit'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/pages'
     | '/_authenticated/admin/roles'
@@ -255,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/media': {
       id: '/_authenticated/admin/media'
       path: '/admin/media'
@@ -287,6 +306,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
   AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
@@ -295,6 +315,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
   AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
