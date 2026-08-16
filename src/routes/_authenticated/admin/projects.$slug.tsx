@@ -176,6 +176,39 @@ function ProjectEditor() {
         </label>
       </section>
 
+      <section className="space-y-3 rounded-xl border border-border p-5">
+        <h2 className="font-display text-xl text-foreground">Scheduled publishing</h2>
+        <p className="text-xs text-muted-foreground">
+          Leave both empty to publish immediately. With a go-live date set, the draft stays visible
+          only in preview (<code>?preview=1</code>) until that moment, and disappears again after the
+          take-down date.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="space-y-2">
+            <span className={labelText}>Go live at</span>
+            <input
+              type="datetime-local"
+              className={field}
+              value={toLocalInput(row.publish_at)}
+              onChange={(e) => set("publish_at", fromLocalInput(e.target.value))}
+            />
+          </label>
+          <label className="space-y-2">
+            <span className={labelText}>Take down at</span>
+            <input
+              type="datetime-local"
+              className={field}
+              value={toLocalInput(row.unpublish_at)}
+              onChange={(e) => set("unpublish_at", fromLocalInput(e.target.value))}
+            />
+          </label>
+        </div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          Status now: {scheduleStatus(row)}
+        </p>
+      </section>
+
+
       <section className="space-y-4">
         <h2 className="font-display text-xl text-foreground">Hero screens</h2>
         <div className="grid gap-4 sm:grid-cols-2">
