@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { DeviceFrame } from "@/components/site/DeviceFrame";
 import { Lightbox } from "@/components/site/Lightbox";
 import { getProjectRow } from "@/lib/cms.functions";
 import { toProject, useProjects, type CmsProject } from "@/lib/cms";
+import { preloadImages, srcSetFor, thumbUrl } from "@/lib/images";
 import { getProject } from "@/data/projects";
 import { site } from "@/lib/site";
+
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }): Promise<{ project: CmsProject }> => {
