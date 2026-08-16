@@ -31,7 +31,40 @@ const empty: ProjectRow = {
   outcomes: [],
   sort_order: 99,
   published: false,
+  publish_at: null,
+  unpublish_at: null,
 };
+
+/** `datetime-local` speaks local wall-clock time; the database stores UTC. */
+function toLocalInput(iso: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function fromLocalInput(value: string): string | null {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+export function scheduleStatus(row: {
+  published: boolean;
+  publish_at: string | null;
+  unpublish_at: string | null;
+}): string {
+  if (!row.published) return "Draft — preview only";
+  const now = Date.now();
+  if (row.publish_at && new Date(row.publish_at).getTime() > now)
+    return `Scheduled for ${new Date(row.publish_at).toLocaleString()}`;
+  if (row.unpublish_at && new Date(row.unpublish_at).getTime() <= now)
+    return `Expired ${new Date(row.unpublish_at).toLocaleString()}`;
+  if (row.unpublish_at) return `Live until ${new Date(row.unpublish_at).toLocaleString()}`;
+  return "Live";
+}
+
 
 const field =
   "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary";
