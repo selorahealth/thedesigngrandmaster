@@ -38,7 +38,20 @@ export const Route = createFileRoute("/work/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:image", content: site.ogImage },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        ...(p?.screen
+          ? [
+              {
+                rel: "preload",
+                as: "image",
+                href: p.screen,
+                fetchpriority: "high",
+              },
+            ]
+          : []),
+      ],
+
       scripts: [
         {
           type: "application/ld+json",
