@@ -20,6 +20,7 @@ import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
+import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated/admin/roles'
 import { Route as AuthenticatedAdminProjectsSlugRouteImport } from './routes/_authenticated/admin/projects.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -76,6 +77,11 @@ const AuthenticatedAdminPagesRoute = AuthenticatedAdminPagesRouteImport.update({
   path: '/admin/pages',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRolesRoute = AuthenticatedAdminRolesRouteImport.update({
+  id: '/admin/roles',
+  path: '/admin/roles',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminProjectsSlugRoute =
   AuthenticatedAdminProjectsSlugRouteImport.update({
     id: '/admin/projects/$slug',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/work/': typeof WorkIndexRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/work': typeof WorkIndexRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/work/': typeof WorkIndexRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -136,6 +145,7 @@ export interface FileRouteTypes {
     | '/work/'
     | '/admin/media'
     | '/admin/pages'
+    | '/admin/roles'
     | '/admin/'
     | '/admin/projects/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/work'
     | '/admin/media'
     | '/admin/pages'
+    | '/admin/roles'
     | '/admin'
     | '/admin/projects/$slug'
   id:
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/work/'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/pages'
+    | '/_authenticated/admin/roles'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/projects/$slug'
   fileRoutesById: FileRoutesById
@@ -257,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/roles': {
+      id: '/_authenticated/admin/roles'
+      path: '/admin/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AuthenticatedAdminRolesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/projects/$slug': {
       id: '/_authenticated/admin/projects/$slug'
       path: '/admin/projects/$slug'
@@ -270,6 +289,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
+  AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProjectsSlugRoute: typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -277,6 +297,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
+  AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProjectsSlugRoute: AuthenticatedAdminProjectsSlugRoute,
 }
