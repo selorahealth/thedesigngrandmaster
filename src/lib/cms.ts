@@ -143,6 +143,17 @@ export function useProjects(): CmsProject[] {
   return preview && draft.data ? draft.data : published;
 }
 
+/** The CV button in the navbar. The URL is managed in the admin page editor. */
+export function useCvLink(): { href: string; label: string; external: boolean } {
+  const published = useQuery(contentQuery);
+  const copy = published.data?.["site.cv"] ?? defaultContent["site.cv"] ?? {};
+  const url = (copy.note ?? "").trim();
+  const label = (copy.title ?? "").trim() || "Download CV";
+  return url
+    ? { href: url, label, external: /^https?:/i.test(url) }
+    : { href: "/contact", label, external: false };
+}
+
 export function useCopy(key: ContentKey): PageCopy {
   useRealtimeContent();
   const preview = useIsPreview();
