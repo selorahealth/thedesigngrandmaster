@@ -10,7 +10,8 @@ export type ContentKey =
   | "work.header"
   | "repertoire.header"
   | "process.header"
-  | "contact.header";
+  | "contact.header"
+  | "site.cv";
 
 export const contentKeys: { key: ContentKey; label: string }[] = [
   { key: "home.hero", label: "Home — hero" },
@@ -18,6 +19,7 @@ export const contentKeys: { key: ContentKey; label: string }[] = [
   { key: "repertoire.header", label: "Repertoire — header" },
   { key: "process.header", label: "Process — header" },
   { key: "contact.header", label: "Contact — header" },
+  { key: "site.cv", label: "Site — CV download (paste the Drive link in Note)" },
 ];
 
 export const defaultContent: Record<string, PageCopy> = {
@@ -44,6 +46,10 @@ export const defaultContent: Record<string, PageCopy> = {
     title: "How the game is played.",
     intro:
       "Four stages, reviewed in the browser rather than in slides, so there are no surprises at launch.",
+  },
+  "site.cv": {
+    title: "Download CV",
+    note: "",
   },
   "contact.header": {
     eyebrow: "Make your move",
