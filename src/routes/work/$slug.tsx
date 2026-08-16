@@ -79,6 +79,12 @@ function CaseStudy() {
   const related = projects.filter((p) => p.slug !== live.slug).slice(0, 3);
   const [zoom, setZoom] = useState<string | null>(null);
 
+  // Warm the secondary screen and the "more by" covers once the hero is in.
+  useEffect(() => {
+    preloadImages([live.secondScreen, ...related.map((p) => thumbUrl(p.screen, 600))]);
+  }, [live.secondScreen, related]);
+
+
   const tags = [...live.services, ...live.tech.slice(0, 3)];
 
   return (
