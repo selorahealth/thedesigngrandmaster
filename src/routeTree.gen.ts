@@ -18,8 +18,10 @@ import { Route as RepertoireRouteImport } from './routes/repertoire'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
 import { Route as WorkSlugRouteImport } from './routes/work/$slug'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin/audit'
 import { Route as AuthenticatedAdminMediaRouteImport } from './routes/_authenticated/admin/media'
 import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
+import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated/admin/roles'
 import { Route as AuthenticatedAdminProjectsSlugRouteImport } from './routes/_authenticated/admin/projects.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -66,6 +68,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminAuditRoute = AuthenticatedAdminAuditRouteImport.update({
+  id: '/admin/audit',
+  path: '/admin/audit',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
   id: '/admin/media',
   path: '/admin/media',
@@ -74,6 +81,11 @@ const AuthenticatedAdminMediaRoute = AuthenticatedAdminMediaRouteImport.update({
 const AuthenticatedAdminPagesRoute = AuthenticatedAdminPagesRouteImport.update({
   id: '/admin/pages',
   path: '/admin/pages',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRolesRoute = AuthenticatedAdminRolesRouteImport.update({
+  id: '/admin/roles',
+  path: '/admin/roles',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAdminProjectsSlugRoute =
@@ -91,8 +103,10 @@ export interface FileRoutesByFullPath {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -104,8 +118,10 @@ export interface FileRoutesByTo {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work': typeof WorkIndexRoute
+  '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/media': typeof AuthenticatedAdminMediaRoute
   '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -119,8 +135,10 @@ export interface FileRoutesById {
   '/repertoire': typeof RepertoireRoute
   '/work/$slug': typeof WorkSlugRoute
   '/work/': typeof WorkIndexRoute
+  '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/media': typeof AuthenticatedAdminMediaRoute
   '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/projects/$slug': typeof AuthenticatedAdminProjectsSlugRoute
 }
@@ -134,8 +152,10 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/admin/audit'
     | '/admin/media'
     | '/admin/pages'
+    | '/admin/roles'
     | '/admin/'
     | '/admin/projects/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -147,8 +167,10 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work'
+    | '/admin/audit'
     | '/admin/media'
     | '/admin/pages'
+    | '/admin/roles'
     | '/admin'
     | '/admin/projects/$slug'
   id:
@@ -161,8 +183,10 @@ export interface FileRouteTypes {
     | '/repertoire'
     | '/work/$slug'
     | '/work/'
+    | '/_authenticated/admin/audit'
     | '/_authenticated/admin/media'
     | '/_authenticated/admin/pages'
+    | '/_authenticated/admin/roles'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/projects/$slug'
   fileRoutesById: FileRoutesById
@@ -243,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/audit': {
+      id: '/_authenticated/admin/audit'
+      path: '/admin/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AuthenticatedAdminAuditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/media': {
       id: '/_authenticated/admin/media'
       path: '/admin/media'
@@ -257,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/roles': {
+      id: '/_authenticated/admin/roles'
+      path: '/admin/roles'
+      fullPath: '/admin/roles'
+      preLoaderRoute: typeof AuthenticatedAdminRolesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/projects/$slug': {
       id: '/_authenticated/admin/projects/$slug'
       path: '/admin/projects/$slug'
@@ -268,15 +306,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminAuditRoute: typeof AuthenticatedAdminAuditRoute
   AuthenticatedAdminMediaRoute: typeof AuthenticatedAdminMediaRoute
   AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
+  AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminProjectsSlugRoute: typeof AuthenticatedAdminProjectsSlugRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminAuditRoute: AuthenticatedAdminAuditRoute,
   AuthenticatedAdminMediaRoute: AuthenticatedAdminMediaRoute,
   AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
+  AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminProjectsSlugRoute: AuthenticatedAdminProjectsSlugRoute,
 }
@@ -297,3 +339,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_log: {
+        Row: {
+          action: string
+          actor_email: string
+          actor_id: string | null
+          created_at: string
+          entity: string
+          entity_key: string
+          id: string
+          new_value: Json | null
+          old_value: Json | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string
+          actor_id?: string | null
+          created_at?: string
+          entity: string
+          entity_key?: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string
+          actor_id?: string | null
+          created_at?: string
+          entity?: string
+          entity_key?: string
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           created_at: string
@@ -72,6 +108,7 @@ export type Database = {
           industry: string
           name: string
           outcomes: Json
+          publish_at: string | null
           published: boolean
           screen: string
           second_device: string | null
@@ -82,6 +119,7 @@ export type Database = {
           sort_order: number
           summary: string
           tech: Json
+          unpublish_at: string | null
           updated_at: string
           url: string
           year: string
@@ -95,6 +133,7 @@ export type Database = {
           industry?: string
           name: string
           outcomes?: Json
+          publish_at?: string | null
           published?: boolean
           screen?: string
           second_device?: string | null
@@ -105,6 +144,7 @@ export type Database = {
           sort_order?: number
           summary?: string
           tech?: Json
+          unpublish_at?: string | null
           updated_at?: string
           url?: string
           year?: string
@@ -118,6 +158,7 @@ export type Database = {
           industry?: string
           name?: string
           outcomes?: Json
+          publish_at?: string | null
           published?: boolean
           screen?: string
           second_device?: string | null
@@ -128,9 +169,34 @@ export type Database = {
           sort_order?: number
           summary?: string
           tech?: Json
+          unpublish_at?: string | null
           updated_at?: string
           url?: string
           year?: string
+        }
+        Relationships: []
+      }
+      role_invites: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
         }
         Relationships: []
       }
@@ -186,6 +252,7 @@ export type Database = {
         Returns: boolean
       }
       is_site_admin: { Args: never; Returns: boolean }
+      is_site_editor: { Args: never; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "editor"

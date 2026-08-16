@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { PageShell } from "@/components/site/PageShell";
 import { DeviceFrame } from "@/components/site/DeviceFrame";
 import { Lightbox } from "@/components/site/Lightbox";
 import { getProjectRow } from "@/lib/cms.functions";
 import { toProject, useProjects, type CmsProject } from "@/lib/cms";
+import { preloadImages, srcSetFor, thumbUrl } from "@/lib/images";
 import { getProject } from "@/data/projects";
 import { site } from "@/lib/site";
+
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }): Promise<{ project: CmsProject }> => {
@@ -36,7 +38,20 @@ export const Route = createFileRoute("/work/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:image", content: site.ogImage },
       ],
-      links: [{ rel: "canonical", href: url }],
+      links: [
+        { rel: "canonical", href: url },
+        ...(p?.screen
+          ? [
+              {
+                rel: "preload",
+                as: "image",
+                href: p.screen,
+                fetchpriority: "high",
+              },
+            ]
+          : []),
+      ],
+
       scripts: [
         {
           type: "application/ld+json",
@@ -63,6 +78,12 @@ function CaseStudy() {
   const live: CmsProject = projects.find((p) => p.slug === project.slug) ?? project;
   const related = projects.filter((p) => p.slug !== live.slug).slice(0, 3);
   const [zoom, setZoom] = useState<string | null>(null);
+
+  // Warm the secondary screen and the "more by" covers once the hero is in.
+  useEffect(() => {
+    preloadImages([live.secondScreen, ...related.map((p) => thumbUrl(p.screen, 600))]);
+  }, [live.secondScreen, related]);
+
 
   const tags = [...live.services, ...live.tech.slice(0, 3)];
 
@@ -234,11 +255,15 @@ function CaseStudy() {
               >
                 <div className="overflow-hidden bg-ink p-4">
                   <img
-                    src={p.screen}
+                    src={thumbUrl(p.screen, 600)}
+                    srcSet={srcSetFor(p.screen, [400, 600, 900])}
+                    sizes="(max-width: 640px) 100vw, 340px"
                     alt={`${p.name} cover`}
                     loading="lazy"
+                    decoding="async"
                     className="aspect-[4/3] w-full rounded-md object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
                   />
+
                 </div>
                 <div className="p-4">
                   <p className="font-display text-lg">{p.name}</p>

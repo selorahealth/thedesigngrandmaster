@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useCvLink } from "@/lib/cms";
 
 const links = [
   { label: "Work", to: "/work", section: "work" },
@@ -16,6 +17,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const cv = useCvLink();
   const onHome = pathname === "/";
 
   useEffect(() => {
@@ -100,13 +102,14 @@ export function Nav() {
           </div>
 
           <div className="flex items-center justify-end gap-2">
-            <Link
-              to="/contact"
+            <a
+              href={cv.href}
+              {...(cv.external ? { target: "_blank", rel: "noreferrer" } : {})}
               data-cursor="→"
               className="hidden rounded-full bg-primary px-5 py-2.5 font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground transition-opacity hover:opacity-85 sm:inline-block"
             >
-              Start a project
-            </Link>
+              {cv.label}
+            </a>
 
             <button
               type="button"
@@ -151,13 +154,14 @@ export function Nav() {
                   ) : null}
                 </Link>
               ))}
-              <Link
-                to="/contact"
+              <a
+                href={cv.href}
+                {...(cv.external ? { target: "_blank", rel: "noreferrer" } : {})}
                 onClick={() => setOpen(false)}
                 className="mt-3 rounded-full bg-primary px-5 py-3 text-center font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
               >
-                Start a project
-              </Link>
+                {cv.label}
+              </a>
             </div>
           </div>
         </div>
