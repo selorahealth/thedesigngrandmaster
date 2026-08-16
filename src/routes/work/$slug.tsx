@@ -255,11 +255,15 @@ function CaseStudy() {
               >
                 <div className="overflow-hidden bg-ink p-4">
                   <img
-                    src={p.screen}
+                    src={thumbUrl(p.screen, 600)}
+                    srcSet={srcSetFor(p.screen, [400, 600, 900])}
+                    sizes="(max-width: 640px) 100vw, 340px"
                     alt={`${p.name} cover`}
                     loading="lazy"
+                    decoding="async"
                     className="aspect-[4/3] w-full rounded-md object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
                   />
+
                 </div>
                 <div className="p-4">
                   <p className="font-display text-lg">{p.name}</p>
