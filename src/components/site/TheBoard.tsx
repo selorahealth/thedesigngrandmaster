@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useReveal } from "./useReveal";
 import { DeviceFrame } from "./DeviceFrame";
 import { useProjects, type CmsProject } from "@/lib/cms";
+import { preloadImages } from "@/lib/images";
 
 export function ProjectCard({ project }: { project: CmsProject }) {
   return (
@@ -9,6 +10,8 @@ export function ProjectCard({ project }: { project: CmsProject }) {
       to="/work/$slug"
       params={{ slug: project.slug }}
       data-cursor="VIEW"
+      onMouseEnter={() => preloadImages([project.screen, project.secondScreen])}
+      onFocus={() => preloadImages([project.screen, project.secondScreen])}
       className="reveal group block overflow-hidden rounded-2xl border border-border bg-card/40 transition-all duration-500 hover:-translate-y-1 hover:border-primary/40"
     >
       <div className="flex items-center justify-center overflow-hidden bg-ink px-4 pt-6 sm:px-8 sm:pt-10">
