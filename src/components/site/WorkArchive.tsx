@@ -4,7 +4,7 @@ import {
   useState,
   type KeyboardEvent,
 } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { ProjectCard } from "./TheBoard";
 import { disciplines, matchesSearch, useProjects } from "@/lib/cms";
 
