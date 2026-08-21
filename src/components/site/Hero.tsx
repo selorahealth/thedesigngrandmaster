@@ -35,13 +35,13 @@ export function Hero() {
           className={`order-2 transition-all duration-700 lg:order-1 ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
         >
           <p className="eyebrow">Opening move</p>
-          <h1 className="display mt-5 text-[clamp(2.5rem,10vw,5.5rem)] sm:text-[clamp(3rem,7vw,5.5rem)]">
-            I’m <b>Samuel Amanze</b>,
+          <h3 className="display mt-5 text-[clamp(2.5rem,10vw,5.5rem)] sm:text-[clamp(3rem,7vw,5.5rem)]">
+            I’m <span className="text-primary">Samuel Amanze</span>,
             <br />
             the designer and developer behind
             <br />
-            <b>Thedesigngrandmaster</b>.
-          </h1>
+            <span className="text-primary">Thedesigngrandmaster</span>.
+          </h3>
           <p className="mt-6 max-w-lg text-[0.95rem] leading-relaxed text-muted-foreground sm:text-base">
            I build websites, apps and graphic identities from scratch. Every project is drawn, written and shipped from scratch.
           </p>
