@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import queen from "@/assets/queen.png";
 
-const chips = ["14 projects shipped", "6 months", "0 templates"];
+const chips = ["14 projects shipped", "24 months", "0 templates"];
 
 export function Hero() {
   const queenRef = useRef<HTMLDivElement>(null);
@@ -36,15 +36,14 @@ export function Hero() {
         >
           <p className="eyebrow">Opening move</p>
           <h1 className="display mt-5 text-[clamp(2.5rem,10vw,5.5rem)] sm:text-[clamp(3rem,7vw,5.5rem)]">
-            Design and code,
+            I’m <b>Samuel Amanze</b>,
             <br />
-            played like it
+            the designer and developer behind
             <br />
-            matters.
+            <b>Thedesigngrandmaster</b>.
           </h1>
           <p className="mt-6 max-w-lg text-[0.95rem] leading-relaxed text-muted-foreground sm:text-base">
-            thedesigngrandmaster is an independent studio building websites, apps and graphic
-            identities. Every project is drawn, written and shipped from scratch.
+           I build websites, apps and graphic identities from scratch. Every project is drawn, written and shipped from scratch.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:mt-10">
             <Link
@@ -55,11 +54,11 @@ export function Hero() {
               View the work
             </Link>
             <Link
-              to="/contact"
+              href="https://drive.google.com/drive/folders/1wJHE2HaHAUOUiyGsXx6JGZbt5IIsNMtH?usp=drive_link"
               data-cursor="&#8594;"
               className="rounded-full border border-border px-7 py-3.5 text-center font-mono text-[11px] tracking-[0.16em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary"
             >
-              Start a project
+              See Resume/CV
             </Link>
           </div>
         </div>
