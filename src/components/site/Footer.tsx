@@ -159,7 +159,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-muted-foreground">
-            Copyright (c) {new Date().getFullYear()} Thedesigngrandmaster
+            Copyright (c) {new Date().getFullYear()} Samuel Amanze | Thedesigngrandmaster
           </p>
           <div className="flex gap-6">
             <SwapLink href={site.x}>X</SwapLink>
