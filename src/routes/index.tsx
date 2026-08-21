@@ -31,13 +31,13 @@ export const Route = createFileRoute("/")({
   head: () => ({
 
     meta: [
-      { title: "thedesigngrandmaster — Design and code studio" },
+      { title: "Samuel Amanze | Thedesigngrandmaster" },
       {
         name: "description",
         content:
-          "Independent studio building websites, apps and brand identities from scratch. 14 live projects across fintech, health, retail and media.",
+          "I’m Samuel Amanze the designer and developer behind Thedesigngrandmaster.",
       },
-      { property: "og:title", content: "thedesigngrandmaster — Design and code studio" },
+      { property: "og:title", content: "Samuel Amanze | Thedesigngrandmaster" },
       {
         property: "og:description",
         content:
