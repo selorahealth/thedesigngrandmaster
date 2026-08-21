@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom"; // or next/navigation if App Router
 import { ProjectCard } from "./TheBoard";
 import { disciplines, matchesSearch, useProjects } from "@/lib/cms";
 
@@ -15,8 +16,24 @@ function hasDiscipline(services: string[], category: string, discipline: string)
  */
 export function WorkArchive() {
   const projects = useProjects();
-  const [term, setTerm] = useState("");
-  const [active, setActive] = useState<string | null>(null);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Initialise from URL so refresh / share works
+  const initialTerm = searchParams.get("q") ?? "";
+  const initialDiscipline = searchParams.get("discipline");
+
+  const [term, setTerm] = useState(initialTerm);
+  const [active, setActive] = useState<string | null>(
+    initialDiscipline && disciplines.includes(initialDiscipline) ? initialDiscipline : null
+  );
+
+  // Keep local state in sync when URL changes (back/forward)
+  useEffect(() => {
+    setTerm(searchParams.get("q") ?? "");
+    const d = searchParams.get("discipline");
+    setActive(d && disciplines.includes(d) ? d : null);
+  }, [searchParams]);
 
   const results = useMemo(
     () =>
@@ -38,10 +55,37 @@ export function WorkArchive() {
     [projects],
   );
 
+  // Build a clean query string and navigate
+  const goToResults = (nextTerm: string, nextActive: string | null) => {
+    const params = new URLSearchParams();
+    if (nextTerm.trim()) params.set("q", nextTerm.trim());
+    if (nextActive) params.set("discipline", nextActive);
+    const qs = params.toString();
+    navigate(qs ? `/work?${qs}` : "/work");
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      goToResults(term, active);
+    }
+  };
+
+  const handleDisciplineClick = (d: string | null) => {
+    const next = active === d ? null : d;
+    setActive(next);
+    goToResults(term, next); // immediately update URL
+  };
+
   return (
     <section className="pb-20 sm:pb-28">
       <div className="shell">
-        <div className="sticky top-20 z-30 -mx-5 mb-8 border-y border-border bg-background/85 px-5 py-4 backdrop-blur-xl sm:-mx-8 sm:px-8 sm:top-24 sm:mb-12 sm:rounded-2xl sm:border sm:py-5">
+        {/* 
+          Removed sticky + negative margins.
+          This is the main fix for the "I can't see the projects" problem.
+          The bar now stays in normal document flow.
+        */}
+        <div className="mb-8 border-y border-border bg-background/95 px-5 py-4 sm:mb-12 sm:rounded-2xl sm:border sm:px-8 sm:py-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <label className="relative block w-full lg:max-w-xs">
               <span className="sr-only">Search projects</span>
@@ -49,6 +93,7 @@ export function WorkArchive() {
                 type="search"
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
+                onKeyDown={handleSearchKeyDown}
                 placeholder="Search by name, industry, stack"
                 className="w-full rounded-full border border-border bg-card px-4 py-3 pl-10 text-sm outline-none placeholder:text-muted-foreground focus:border-primary"
               />
@@ -63,7 +108,7 @@ export function WorkArchive() {
             <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:flex-wrap lg:justify-end lg:overflow-visible lg:pb-0">
               <button
                 type="button"
-                onClick={() => setActive(null)}
+                onClick={() => handleDisciplineClick(null)}
                 className={`shrink-0 rounded-full border px-4 py-2 font-mono text-[10px] tracking-[0.14em] uppercase transition-colors ${
                   active === null
                     ? "border-primary bg-primary/12 text-primary"
@@ -72,11 +117,12 @@ export function WorkArchive() {
               >
                 All ({projects.length})
               </button>
+
               {disciplines.map((d) => (
                 <button
                   key={d}
                   type="button"
-                  onClick={() => setActive(active === d ? null : d)}
+                  onClick={() => handleDisciplineClick(d)}
                   className={`shrink-0 rounded-full border px-4 py-2 font-mono text-[10px] tracking-[0.14em] uppercase transition-colors ${
                     active === d
                       ? "border-primary bg-primary/12 text-primary"
@@ -88,6 +134,7 @@ export function WorkArchive() {
               ))}
             </div>
           </div>
+
           <p className="mt-3 font-mono text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
             {results.length} {results.length === 1 ? "case study" : "case studies"}
             {active ? ` · ${active}` : ""}
@@ -114,6 +161,7 @@ export function WorkArchive() {
               onClick={() => {
                 setTerm("");
                 setActive(null);
+                navigate("/work");
               }}
               className="mt-6 rounded-full border border-border px-6 py-3 font-mono text-[10px] tracking-[0.16em] uppercase hover:border-primary hover:text-primary"
             >
