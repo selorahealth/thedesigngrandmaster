@@ -4,9 +4,16 @@ import {
   useState,
   type KeyboardEvent,
 } from "react";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import {
+  useNavigate,
+  useSearch,
+} from "@tanstack/react-router";
 import { ProjectCard } from "./TheBoard";
-import { disciplines, matchesSearch, useProjects } from "@/lib/cms";
+import {
+  disciplines,
+  matchesSearch,
+  useProjects,
+} from "@/lib/cms";
 
 function hasDiscipline(
   services: string[],
@@ -14,7 +21,13 @@ function hasDiscipline(
   discipline: string,
 ) {
   const d = discipline.toLowerCase();
-  const bag = [...services, category].join(" ").toLowerCase();
+
+  const bag = [
+    ...services,
+    category,
+  ]
+    .join(" ")
+    .toLowerCase();
 
   if (d === "b2b") {
     return (
@@ -31,45 +44,75 @@ function hasDiscipline(
 }
 
 /**
- * The archive: searchable, discipline-filtered index of every case study.
- * Lives only on /work — the home page keeps its curated four.
+ * The archive: searchable, discipline-filtered index
+ * of every case study.
+ *
+ * Lives only on /work — the home page keeps its
+ * curated four.
  */
 export function WorkArchive() {
   const projects = useProjects();
 
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  /*
+   * TanStack Router search state.
+   *
+   * This replaces React Router's useSearchParams().
+   */
+  const search = useSearch({
+    from: "/work/",
+  });
 
-  // Initialise state from the URL so refresh/share works.
-  const initialTerm = searchParams.get("q") ?? "";
-  const initialDiscipline = searchParams.get("discipline");
+  const navigate = useNavigate({
+    from: "/work/",
+  });
 
-  const [term, setTerm] = useState(initialTerm);
+  /*
+   * Read the current URL state.
+   */
+  const urlTerm = search.q ?? "";
+  const urlDiscipline =
+    search.discipline ?? null;
 
-  const [active, setActive] = useState<string | null>(
-    initialDiscipline && disciplines.includes(initialDiscipline)
-      ? initialDiscipline
-      : null,
-  );
+  /*
+   * Local input state.
+   *
+   * The search field can be edited without
+   * immediately changing the URL.
+   */
+  const [term, setTerm] =
+    useState(urlTerm);
 
-  // Keep local state in sync when URL changes
-  // (back/forward navigation).
-  useEffect(() => {
-    setTerm(searchParams.get("q") ?? "");
-
-    const d = searchParams.get("discipline");
-
-    setActive(
-      d && disciplines.includes(d)
-        ? d
+  const [active, setActive] =
+    useState<string | null>(
+      urlDiscipline &&
+        disciplines.includes(urlDiscipline)
+        ? urlDiscipline
         : null,
     );
-  }, [searchParams]);
 
-  // Filter projects based on search term + discipline.
+  /*
+   * Keep local state synchronized when the URL
+   * changes through browser back/forward navigation
+   * or another navigation event.
+   */
+  useEffect(() => {
+    setTerm(urlTerm);
+
+    setActive(
+      urlDiscipline &&
+        disciplines.includes(urlDiscipline)
+        ? urlDiscipline
+        : null,
+    );
+  }, [urlTerm, urlDiscipline]);
+
+  /*
+   * Filter projects.
+   */
   const results = useMemo(() => {
     return projects.filter((project) => {
-      const matchesTerm = matchesSearch(project, term);
+      const matchesTerm =
+        matchesSearch(project, term);
 
       const matchesDiscipline =
         !active ||
@@ -79,11 +122,20 @@ export function WorkArchive() {
           active,
         );
 
-      return matchesTerm && matchesDiscipline;
+      return (
+        matchesTerm &&
+        matchesDiscipline
+      );
     });
-  }, [projects, term, active]);
+  }, [
+    projects,
+    term,
+    active,
+  ]);
 
-  // Calculate the number of projects in each discipline.
+  /*
+   * Count projects in each discipline.
+   */
   const counts = useMemo(() => {
     return Object.fromEntries(
       disciplines.map((discipline) => [
@@ -99,40 +151,48 @@ export function WorkArchive() {
     ) as Record<string, number>;
   }, [projects]);
 
-  // Build a clean query string and navigate.
+  /*
+   * Update the URL using TanStack Router.
+   *
+   * No manual URLSearchParams.
+   * No `/work?q=...` string construction.
+   */
   const goToResults = (
     nextTerm: string,
     nextActive: string | null,
   ) => {
-    const params = new URLSearchParams();
+    navigate({
+      search: {
+        q:
+          nextTerm.trim() || undefined,
 
-    if (nextTerm.trim()) {
-      params.set("q", nextTerm.trim());
-    }
-
-    if (nextActive) {
-      params.set("discipline", nextActive);
-    }
-
-    const queryString = params.toString();
-
-    navigate(
-      queryString
-        ? `/work?${queryString}`
-        : "/work",
-    );
+        discipline:
+          nextActive || undefined,
+      },
+    });
   };
 
+  /*
+   * Submit search with Enter.
+   */
   const handleSearchKeyDown = (
     event: KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-
-      goToResults(term, active);
+    if (event.key !== "Enter") {
+      return;
     }
+
+    event.preventDefault();
+
+    goToResults(
+      term,
+      active,
+    );
   };
 
+  /*
+   * Toggle discipline filter.
+   */
   const handleDisciplineClick = (
     discipline: string | null,
   ) => {
@@ -143,13 +203,25 @@ export function WorkArchive() {
 
     setActive(next);
 
-    goToResults(term, next);
+    goToResults(
+      term,
+      next,
+    );
   };
 
+  /*
+   * Clear everything.
+   */
   const handleReset = () => {
     setTerm("");
     setActive(null);
-    navigate("/work");
+
+    navigate({
+      search: {
+        q: undefined,
+        discipline: undefined,
+      },
+    });
   };
 
   return (
@@ -168,9 +240,13 @@ export function WorkArchive() {
                 type="search"
                 value={term}
                 onChange={(event) =>
-                  setTerm(event.target.value)
+                  setTerm(
+                    event.target.value,
+                  )
                 }
-                onKeyDown={handleSearchKeyDown}
+                onKeyDown={
+                  handleSearchKeyDown
+                }
                 placeholder="Search by name, industry, stack"
                 className="w-full rounded-full border border-border bg-card px-4 py-3 pl-10 text-sm outline-none placeholder:text-muted-foreground focus:border-primary"
               />
@@ -185,10 +261,13 @@ export function WorkArchive() {
 
             {/* Discipline filters */}
             <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:flex-wrap lg:justify-end lg:overflow-visible lg:pb-0">
+              {/* All */}
               <button
                 type="button"
                 onClick={() =>
-                  handleDisciplineClick(null)
+                  handleDisciplineClick(
+                    null,
+                  )
                 }
                 className={`shrink-0 rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
                   active === null
@@ -199,25 +278,31 @@ export function WorkArchive() {
                 All ({projects.length})
               </button>
 
-              {disciplines.map((discipline) => (
-                <button
-                  key={discipline}
-                  type="button"
-                  onClick={() =>
-                    handleDisciplineClick(
-                      discipline,
+              {/* Disciplines */}
+              {disciplines.map(
+                (discipline) => (
+                  <button
+                    key={discipline}
+                    type="button"
+                    onClick={() =>
+                      handleDisciplineClick(
+                        discipline,
+                      )
+                    }
+                    className={`shrink-0 rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
+                      active === discipline
+                        ? "border-primary bg-primary/12 text-primary"
+                        : "border-border text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {discipline} (
+                    {counts[
+                      discipline
+                    ] ?? 0}
                     )
-                  }
-                  className={`shrink-0 rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] transition-colors ${
-                    active === discipline
-                      ? "border-primary bg-primary/12 text-primary"
-                      : "border-border text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {discipline} (
-                  {counts[discipline] ?? 0})
-                </button>
-              ))}
+                  </button>
+                ),
+              )}
             </div>
           </div>
 
@@ -238,25 +323,21 @@ export function WorkArchive() {
           </p>
         </div>
 
-        {/* =====================================================
-            PROJECT RESULTS
-
-            IMPORTANT:
-            There is intentionally NO `is-visible` class here.
-
-            That class was the most likely reason the cards were
-            taking up space but remaining invisible.
-           ===================================================== */}
+        {/* Project results */}
         {results.length > 0 ? (
           <div className="grid gap-5 sm:gap-6 lg:grid-cols-2">
-            {results.map((project) => (
-              <div
-                key={project.slug}
-                className="block"
-              >
-                <ProjectCard project={project} />
-              </div>
-            ))}
+            {results.map(
+              (project) => (
+                <div
+                  key={project.slug}
+                  className="block"
+                >
+                  <ProjectCard
+                    project={project}
+                  />
+                </div>
+              ),
+            )}
           </div>
         ) : (
           /* Empty state */
@@ -266,8 +347,8 @@ export function WorkArchive() {
             </p>
 
             <p className="mt-2 text-sm text-muted-foreground">
-              Try a different keyword, or clear
-              the filters.
+              Try a different keyword, or
+              clear the filters.
             </p>
 
             <button
