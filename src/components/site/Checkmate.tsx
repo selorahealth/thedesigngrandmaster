@@ -4,7 +4,7 @@ import { useReveal } from "./useReveal";
 import { site } from "@/lib/site";
 import queen from "@/assets/queen.png";
 
-export function Checkmate({ heading = "Tell us what you're building." }: { heading?: string }) {
+export function Checkmate({ heading = "Tell me what you're building." }: { heading?: string }) {
   const ref = useReveal<HTMLDivElement>();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
