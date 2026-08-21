@@ -36,7 +36,7 @@ export function PostGame() {
       <div className="shell">
         <p className="eyebrow reveal">Post-game analysis</p>
         <h2 className="display reveal mt-4 text-[clamp(2rem,8vw,4rem)] sm:text-[clamp(2.25rem,5vw,4rem)]">
-          What the board says.
+          What clients say.
         </h2>
 
         <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 lg:grid-cols-3">
@@ -103,7 +103,7 @@ export function Engagements() {
       <div className="shell">
         <p className="eyebrow reveal">Make your move</p>
         <h2 className="display reveal mt-4 text-[clamp(2rem,8vw,4rem)] sm:text-[clamp(2.25rem,5vw,4rem)]">
-          Make your move.
+          Let's build something together.
         </h2>
 
         <div className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 lg:grid-cols-2">
