@@ -37,7 +37,7 @@ export function GamePlan() {
 
 const stats = [
   { value: "14+", label: "Projects shipped" },
-  { value: "6", label: "Months building" },
+  { value: "24", label: "Months building" },
   { value: "100%", label: "Built from scratch" },
 ];
 
