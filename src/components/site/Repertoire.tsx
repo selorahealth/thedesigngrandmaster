@@ -41,7 +41,7 @@ export function Repertoire() {
             Repertoire.
           </h2>
           <p className="reveal mt-4 max-w-sm text-sm text-muted-foreground sm:text-base">
-            One studio, start to finish. Strategy, design and engineering happen in the same head, so
+            From start to finish. Strategy, design and engineering happen in the same head, so
             nothing gets lost in a handover.
           </p>
         </div>
