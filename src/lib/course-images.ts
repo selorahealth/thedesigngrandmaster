@@ -14,9 +14,7 @@ export async function getCourseImages(): Promise<CourseImageMap> {
 
   if (!data) return {};
 
-  return Object.fromEntries(
-    data.map((row) => [row.slug, row.image_url]),
-  );
+  return Object.fromEntries(data.map((row) => [row.slug, row.image_url]));
 }
 
 export async function saveCourseImage(slug: string, imageUrl: string) {
