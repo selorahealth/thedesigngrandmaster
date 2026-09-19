@@ -57,7 +57,7 @@ function slugifyName(name: string) {
 
 export async function uploadMedia(
   file: File,
-  folder: "project-screens" | "opening-book",
+  folder: "project-screens" | "opening-book" | "course-covers",
   opts?: { width: number; height?: number },
 ): Promise<MediaItem> {
   const blob = await processImage(file, opts ?? { width: 1600 });
@@ -78,7 +78,7 @@ export async function signedUrl(path: string): Promise<string> {
 }
 
 export async function listMedia(
-  folder: "project-screens" | "opening-book",
+  folder: "project-screens" | "opening-book" | "course-covers",
 ): Promise<MediaItem[]> {
   const { data, error } = await supabase.storage
     .from(MEDIA_BUCKET)
