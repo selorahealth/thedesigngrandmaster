@@ -115,7 +115,7 @@ function CourseDetail() {
                 )}
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{course.duration}</p>
-              <p className="mt-1 text-sm text-muted-foreground">Tool: {course.tool}</p>
+              <p className="mt-1 text-sm text-muted-foreground">Tools: {course.tool}</p>
 
               <button
                 onClick={() => setOpen(true)}
