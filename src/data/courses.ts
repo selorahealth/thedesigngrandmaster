@@ -3,7 +3,7 @@ export type Course = {
   title: string;
   shortTitle: string;
   version?: string;
-  price: number;
+  price?: number;                 // optional now
   originalPrice?: number;
   currency: string;
   duration: string;
@@ -60,6 +60,46 @@ export const courses: Course[] = [
     badge: "SELF-PACED · LIFETIME ACCESS",
     whatsappMessage:
       "Hi Thedesigngrandmaster. My name is {fullName}. I just made payment for The ABCs of Graphic Design course. Here's my receipt.",
+  },
+  {
+    slug: "essentials-of-vibecoding",
+    title: "Essentials of Vibecoding",
+    shortTitle: "Essentials of Vibecoding",
+    version: "1.0",
+    // price left out intentionally
+    currency: "NGN",
+    duration: "Self-paced · Lifetime access",
+    level: "Beginner",
+    description:
+      "Learn how to turn ideas into live websites using AI. From prompting and extracting clean code to deploying on Vercel and connecting Supabase — no traditional coding background required.",
+    whoFor: [
+      "Designers who want to bring their designs to life",
+      "Non-technical founders and creators",
+      "Anyone curious about building websites with AI",
+      "People who want to ship real projects without writing every line of code",
+    ],
+    bonuses: [
+      "Prompt library for common website sections",
+      "Private community access",
+      "Certificate of Completion",
+      "Lifetime updates",
+    ],
+    outline: [
+      { title: "What Vibecoding Really Means" },
+      { title: "Setting Up Your Tools" },
+      { title: "Writing Prompts That Work" },
+      { title: "Extracting and Cleaning Code" },
+      { title: "Pushing to GitHub" },
+      { title: "Deploying to Vercel" },
+      { title: "Connecting Supabase" },
+      { title: "Environment Variables & Security" },
+      { title: "Making the Site Look Professional" },
+      { title: "Final Project: Ship Your First Live Site" },
+    ],
+    tools: ["Cursor", "Claude", "ChatGPT", "v0", "Vercel", "Supabase"],
+    badge: "COMING SOON",
+    whatsappMessage:
+      "Hi Thedesigngrandmaster. My name is {fullName}. I just made payment for Essentials of Vibecoding course. Here's my receipt.",
   },
 ];
 
