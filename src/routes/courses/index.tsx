@@ -53,6 +53,7 @@ function CoursesIndex() {
                     {course.badge}
                   </span>
                 )}
+
                 <h2 className="display text-2xl md:text-3xl group-hover:text-cobalt transition-colors">
                   {course.title}
                   {course.version && (
@@ -61,19 +62,31 @@ function CoursesIndex() {
                     </span>
                   )}
                 </h2>
+
                 <p className="mt-3 text-muted-foreground line-clamp-2">
                   {course.description}
                 </p>
+
+                {/* Safe price handling */}
                 <div className="mt-6 flex items-baseline gap-3">
-                  <span className="text-2xl font-semibold text-foreground">
-                    ₦{course.price.toLocaleString()}
-                  </span>
-                  {course.originalPrice && (
-                    <span className="text-sm text-muted-foreground line-through">
-                      ₦{course.originalPrice.toLocaleString()}
+                  {typeof course.price === "number" ? (
+                    <>
+                      <span className="text-2xl font-semibold text-foreground">
+                        ₦{course.price.toLocaleString()}
+                      </span>
+                      {typeof course.originalPrice === "number" && (
+                        <span className="text-sm text-muted-foreground line-through">
+                          ₦{course.originalPrice.toLocaleString()}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span className="text-sm font-medium text-cobalt">
+                      Coming soon
                     </span>
                   )}
                 </div>
+
                 <p className="mt-2 text-sm text-muted-foreground">
                   {course.duration}
                 </p>
