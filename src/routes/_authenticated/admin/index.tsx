@@ -100,6 +100,9 @@ function AdminHome() {
               New project
             </Link>
           </Button>
+          <Button asChild variant="outline" size="sm">
+  <Link to="/admin/courses">Courses</Link>
+</Button>
         </div>
       </div>
 
