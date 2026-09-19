@@ -34,6 +34,14 @@ function MediaLibrary() {
         <h2 className="font-display text-xl text-foreground">Opening-book logos</h2>
         <MediaPicker folder="opening-book" aspect={{ width: 480, height: 240 }} />
       </section>
+
+      <section className="space-y-3">
+  <h2 className="font-display text-xl text-foreground">Course covers (1:1)</h2>
+  <p className="text-sm text-muted-foreground">
+    Square images for course cards and detail pages. Recommended size 800×800 or larger.
+  </p>
+  <MediaPicker folder="course-covers" aspect={{ width: 800, height: 800 }} />
+</section>
     </AdminFrame>
   );
 }
