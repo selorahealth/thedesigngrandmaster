@@ -25,15 +25,19 @@ function CoursesIndex() {
       <Nav />
 
       <section className="shell section-y">
-        <p className="eyebrow mb-4">Courses</p>
-        <h1 className="display text-4xl md:text-6xl max-w-3xl">
-          Learn the skills. Ship the work.
-        </h1>
-        <p className="mt-6 max-w-xl text-muted-foreground text-lg">
-          Self-paced courses built for people who want practical results, not theory.
-        </p>
+        {/* CENTERED HERO */}
+        <div className="text-center">
+          <p className="eyebrow mb-4">Courses</p>
+          <h1 className="display text-4xl md:text-5xl lg:text-6xl max-w-4xl mx-auto">
+            Learn the skills.{" "}
+            <span className="text-cobalt">Ship the work.</span>
+          </h1>
+          <p className="mt-6 max-w-xl mx-auto text-muted-foreground text-lg">
+            Self-paced courses built for people who want practical results, not theory.
+          </p>
+        </div>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
+        <div className="mt-16 grid gap-8 sm:grid-cols-2">
           {courses.map((course) => (
             <Link
               key={course.slug}
