@@ -12,7 +12,7 @@ export type Course = {
   whoFor: string[];
   bonuses: string[];
   outline: { title: string; description?: string }[];
-  tool: string;
+  tools: string[];
   badge?: string;
   whatsappMessage: string;
 };
@@ -56,7 +56,7 @@ export const courses: Course[] = [
       { title: "Designing a Birthday Flyer" },
       { title: "Advanced PixelLab Techniques & Tricks" },
     ],
-    tool: "PixelLab (Android)",
+    tool: ["PixelLab", "Lightroom", "Snapseed"],
     badge: "SELF-PACED · LIFETIME ACCESS",
     whatsappMessage:
       "Hi Thedesigngrandmaster. My name is {fullName}. I just made payment for The ABCs of Graphic Design course. Here's my receipt.",
