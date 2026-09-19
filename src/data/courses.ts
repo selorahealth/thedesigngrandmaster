@@ -65,7 +65,7 @@ export const courses: Course[] = [
   },
   {
     slug: "essentials-of-vibecoding",
-    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789788319263-abcs-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk3ODgzMTkyNjMtYWJjcy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTgzMjg2NiwiZXhwIjoyMTA1MTkyODY2fQ.ks8FZkfhLfsv90q2yBnCaTzX5boOlGlv4L268_nLxlk",
+    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789840074966-essentials-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk4NDAwNzQ5NjYtZXNzZW50aWFscy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTg0MDA4NCwiZXhwIjoyMTA1MjAwMDg0fQ.zuyJG8W8qvZ5miVWdocXEhu1I9ciPPOGL7CMCjVW_A8",
     title: "Essentials of Vibecoding",
     shortTitle: "Essentials of Vibecoding",
     version: "1.0",
