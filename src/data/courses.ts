@@ -8,6 +8,7 @@ export type Course = {
   currency: string;
   duration: string;
   level: string;
+  image?: string;
   description: string;
   whoFor: string[];
   bonuses: string[];
