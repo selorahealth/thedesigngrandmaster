@@ -9,13 +9,22 @@ import { PaymentModal } from "@/components/courses/PaymentModal";
 export const Route = createFileRoute("/courses/$slug")({
   loader: ({ params }) => {
     const course = getCourse(params.slug);
-    if (!course) throw notFound();
+    if (!course) {
+      throw notFound();
+    }
     return { course };
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.course.title} | Thedesigngrandmaster` },
-      { name: "description", content: loaderData?.course.description },
+      {
+        title: loaderData
+          ? `${loaderData.course.title} | Thedesigngrandmaster`
+          : "Course | Thedesigngrandmaster",
+      },
+      {
+        name: "description",
+        content: loaderData?.course.description ?? "",
+      },
     ],
   }),
   component: CourseDetail,
@@ -31,12 +40,15 @@ function CourseDetail() {
       <Nav />
 
       <section className="shell section-y">
-        <Link to="/courses" className="text-sm text-muted-foreground hover:text-cobalt">
+        <Link
+          to="/courses"
+          className="text-sm text-muted-foreground hover:text-cobalt transition-colors"
+        >
           ← All courses
         </Link>
 
         <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_380px]">
-          {/* Left – content */}
+          {/* Left content */}
           <div>
             {course.badge && (
               <span className="inline-block rounded-full bg-cobalt/15 px-3 py-1 text-xs font-medium text-cobalt mb-4">
@@ -89,7 +101,7 @@ function CourseDetail() {
             </div>
           </div>
 
-          {/* Right – sticky buy card */}
+          {/* Sticky buy card */}
           <div className="lg:sticky lg:top-24 h-fit">
             <div className="rounded-2xl border border-border bg-card p-8">
               <div className="flex items-baseline gap-3">
@@ -103,7 +115,7 @@ function CourseDetail() {
                 )}
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{course.duration}</p>
-              <p className="mt-1 text-sm text-muted-foreground">Tools: {course.tool}</p>
+              <p className="mt-1 text-sm text-muted-foreground">Tool: {course.tool}</p>
 
               <button
                 onClick={() => setOpen(true)}
@@ -122,11 +134,7 @@ function CourseDetail() {
 
       <Footer />
 
-      <PaymentModal
-        open={open}
-        onClose={() => setOpen(false)}
-        course={course}
-      />
+      <PaymentModal open={open} onClose={() => setOpen(false)} course={course} />
     </main>
   );
 }
