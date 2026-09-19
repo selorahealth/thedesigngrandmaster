@@ -156,8 +156,7 @@ export function PaymentModal({ open, onClose, course }: Props) {
               Send receipt on WhatsApp
             </a>
             <p className="mt-4 text-xs text-center text-muted-foreground">
-              You will receive the Google Drive folder and Telegram group link
-              after confirmation.
+              You will receive the link to your course folder and private community access after confirmation.
             </p>
             <button
               onClick={onClose}
