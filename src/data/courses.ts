@@ -21,6 +21,7 @@ export type Course = {
 export const courses: Course[] = [
   {
     slug: "abcs-of-graphic-design",
+    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789787876865-abcs-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk3ODc4NzY4NjUtYWJjcy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTc4Nzg4MSwiZXhwIjoyMTA1MTQ3ODgxfQ.9ATtzE318CBN2PRmgq5KUR1d6Mg9nSiSU8A4gWhqhgU",
     title: "The ABCs of Graphic Design",
     shortTitle: "ABCs of Graphic Design",
     version: "1.0",
@@ -64,6 +65,7 @@ export const courses: Course[] = [
   },
   {
     slug: "essentials-of-vibecoding",
+    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789787888594-ai-art-aiart-digitalart.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk3ODc4ODg1OTQtYWktYXJ0LWFpYXJ0LWRpZ2l0YWxhcnQud2VicCIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODk3ODc4OTAsImV4cCI6MjEwNTE0Nzg5MH0.1abiB-EouIFbaKr7a2z3_R0hGLKQIv7yJ9-wRm5pxqc",
     title: "Essentials of Vibecoding",
     shortTitle: "Essentials of Vibecoding",
     version: "1.0",
