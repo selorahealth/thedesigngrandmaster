@@ -25,8 +25,9 @@ export function PaymentModal({ open, onClose, course }: Props) {
     "{fullName}",
     fullName || "Student",
   );
-  // ← Replace 234XXXXXXXXXX with your real WhatsApp number
   const whatsappUrl = `https://wa.me/2349065718162?text=${encodeURIComponent(whatsappText)}`;
+
+  const price = course.price ?? 0;
 
   function handleDetailsSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -101,7 +102,7 @@ export function PaymentModal({ open, onClose, course }: Props) {
           <>
             <h3 className="text-xl font-semibold">Make payment</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Transfer ₦{course.price.toLocaleString()} to the account below.
+              Transfer ₦{price.toLocaleString()} to the account below.
             </p>
 
             <div className="mt-6 space-y-3 rounded-xl bg-secondary/50 p-5 text-sm">
@@ -120,7 +121,7 @@ export function PaymentModal({ open, onClose, course }: Props) {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Amount</span>
                 <span className="font-semibold text-cobalt">
-                  ₦{course.price.toLocaleString()}
+                  ₦{price.toLocaleString()}
                 </span>
               </div>
             </div>
