@@ -4,10 +4,9 @@ import { bundledScreenNames } from "@/lib/screens";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  folder: "project-screens" | "opening-book";
+  folder: "project-screens" | "opening-book" | "course-covers";
   value?: string;
   onSelect?: (url: string) => void;
-  /** Crop preset applied on upload so the library stays consistent. */
   aspect?: { width: number; height?: number };
   showBundled?: boolean;
 };
