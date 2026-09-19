@@ -55,6 +55,18 @@ function CourseDetail() {
                 {course.badge}
               </span>
             )}
+
+            {/* 1:1 course image */}
+            {course.image && (
+              <div className="mb-8 aspect-square max-w-md overflow-hidden rounded-2xl border border-border">
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
+
             <h1 className="display text-4xl md:text-5xl lg:text-6xl">
               {course.title}
             </h1>
@@ -104,25 +116,45 @@ function CourseDetail() {
           {/* Sticky buy card */}
           <div className="lg:sticky lg:top-24 h-fit">
             <div className="rounded-2xl border border-border bg-card p-8">
+              {/* Safe price handling */}
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-semibold">
-                  ₦{course.price.toLocaleString()}
-                </span>
-                {course.originalPrice && (
-                  <span className="text-muted-foreground line-through">
-                    ₦{course.originalPrice.toLocaleString()}
-                  </span>
+                {typeof course.price === "number" ? (
+                  <>
+                    <span className="text-3xl font-semibold">
+                      ₦{course.price.toLocaleString()}
+                    </span>
+                    {typeof course.originalPrice === "number" && (
+                      <span className="text-muted-foreground line-through">
+                        ₦{course.originalPrice.toLocaleString()}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-lg font-medium text-cobalt">Coming soon</span>
                 )}
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">{course.duration}</p>
-              <p className="mt-1 text-sm text-muted-foreground">Tools: {course.tools.join(" · ")}</p>
 
-              <button
-                onClick={() => setOpen(true)}
-                className="mt-8 w-full rounded-xl bg-cobalt px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-cobalt/90"
-              >
-                Enrol now
-              </button>
+              <p className="mt-2 text-sm text-muted-foreground">{course.duration}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Tools: {course.tools?.join(" · ") ?? "—"}
+              </p>
+
+              {/* Enrol button only when price exists */}
+              {typeof course.price === "number" ? (
+                <button
+                  onClick={() => setOpen(true)}
+                  className="mt-8 w-full rounded-xl bg-cobalt px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-cobalt/90"
+                >
+                  Enrol now
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="mt-8 w-full cursor-not-allowed rounded-xl bg-secondary px-6 py-3.5 text-sm font-semibold text-muted-foreground"
+                >
+                  Coming soon
+                </button>
+              )}
 
               <p className="mt-4 text-xs text-center text-muted-foreground">
                 Lifetime access · Certificate included
@@ -134,7 +166,9 @@ function CourseDetail() {
 
       <Footer />
 
-      <PaymentModal open={open} onClose={() => setOpen(false)} course={course} />
+      {typeof course.price === "number" && (
+        <PaymentModal open={open} onClose={() => setOpen(false)} course={course} />
+      )}
     </main>
   );
 }
