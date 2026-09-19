@@ -90,6 +90,9 @@ function AdminHome() {
             <Link to="/admin/media">Media library</Link>
           </Button>
           <Button asChild variant="outline" size="sm">
+            <Link to="/admin/courses">Courses</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
             <Link to="/admin/roles">Team access</Link>
           </Button>
           <Button asChild variant="outline" size="sm">
@@ -100,9 +103,6 @@ function AdminHome() {
               New project
             </Link>
           </Button>
-          <Button asChild variant="outline" size="sm">
-  <Link to="/admin/courses">Courses</Link>
-</Button>
         </div>
       </div>
 
@@ -112,7 +112,9 @@ function AdminHome() {
           <input
             type="checkbox"
             checked={allSelected}
-            onChange={(e) => setSelected(e.target.checked ? rows.map((r) => r.slug) : [])}
+            onChange={(e) =>
+              setSelected(e.target.checked ? rows.map((r) => r.slug) : [])
+            }
           />
           Select all
         </label>
@@ -124,7 +126,9 @@ function AdminHome() {
             size="sm"
             variant="outline"
             disabled={!selected.length}
-            onClick={() => void runBulk("Publishing…", () => bulkSetPublished(selected, true))}
+            onClick={() =>
+              void runBulk("Publishing…", () => bulkSetPublished(selected, true))
+            }
           >
             Publish
           </Button>
@@ -132,7 +136,11 @@ function AdminHome() {
             size="sm"
             variant="outline"
             disabled={!selected.length}
-            onClick={() => void runBulk("Unpublishing…", () => bulkSetPublished(selected, false))}
+            onClick={() =>
+              void runBulk("Unpublishing…", () =>
+                bulkSetPublished(selected, false),
+              )
+            }
           >
             Unpublish
           </Button>
@@ -160,7 +168,9 @@ function AdminHome() {
               checked={selected.includes(p.slug)}
               onChange={(e) =>
                 setSelected((prev) =>
-                  e.target.checked ? [...prev, p.slug] : prev.filter((s) => s !== p.slug),
+                  e.target.checked
+                    ? [...prev, p.slug]
+                    : prev.filter((s) => s !== p.slug),
                 )
               }
             />
@@ -172,7 +182,9 @@ function AdminHome() {
             </div>
             <span
               className={`rounded-full border px-3 py-1 font-mono text-[10px] uppercase ${
-                p.published ? "border-primary text-primary" : "border-border text-muted-foreground"
+                p.published
+                  ? "border-primary text-primary"
+                  : "border-border text-muted-foreground"
               }`}
             >
               {scheduleStatus(p)}
@@ -217,21 +229,24 @@ function AdminHome() {
           Preview any route
         </p>
         <div className="flex flex-wrap gap-2">
-          {["/", "/work", "/repertoire", "/process", "/contact"].map((path) => (
-            <a
-              key={path}
-              href={`${path}?preview=1`}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground"
-            >
-              {path}
-            </a>
-          ))}
+          {["/", "/work", "/repertoire", "/process", "/contact", "/courses"].map(
+            (path) => (
+              <a
+                key={path}
+                href={`${path}?preview=1`}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground"
+              >
+                {path}
+              </a>
+            ),
+          )}
         </div>
         <p className="text-xs text-muted-foreground">
-          Preview shows drafts and scheduled projects before their go-live date. Published visitors
-          keep seeing the live version until the schedule opens.
+          Preview shows drafts and scheduled projects before their go-live date.
+          Published visitors keep seeing the live version until the schedule
+          opens.
         </p>
       </div>
 
@@ -252,10 +267,15 @@ export function AdminFrame({ children }: { children: React.ReactNode }) {
           </Link>
           <Link to="/admin/pages">Pages</Link>
           <Link to="/admin/media">Media</Link>
+          <Link to="/admin/courses">Courses</Link>
           <Link to="/admin/roles">Access</Link>
           <Link to="/admin/audit">Audit</Link>
           <Link to="/">Back to site</Link>
-          <button type="button" onClick={() => void supabase.auth.signOut()} className="uppercase">
+          <button
+            type="button"
+            onClick={() => void supabase.auth.signOut()}
+            className="uppercase"
+          >
             Sign out
           </button>
         </nav>
