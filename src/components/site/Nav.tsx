@@ -6,6 +6,7 @@ const links = [
   { label: "Work", to: "/work", section: "work" },
   { label: "Repertoire", to: "/repertoire", section: "repertoire" },
   { label: "Process", to: "/process", section: "process" },
+  { label: "Courses", to: "/courses", section: "courses" },
   { label: "Contact", to: "/contact", section: "contact" },
 ];
 
@@ -155,7 +156,8 @@ export function Nav() {
                 </Link>
               ))}
               <a
-                href="https://drive.google.com/drive/folders/1wJHE2HaHAUOUiyGsXx6JGZbt5IIsNMtH?usp=drive_link" target="_blank"
+                href="https://drive.google.com/drive/folders/1wJHE2HaHAUOUiyGsXx6JGZbt5IIsNMtH?usp=drive_link"
+                target="_blank"
                 onClick={() => setOpen(false)}
                 className="mt-3 rounded-full bg-primary px-5 py-3 text-center font-mono text-[11px] tracking-[0.14em] uppercase text-primary-foreground"
               >
