@@ -21,7 +21,7 @@ export type Course = {
 export const courses: Course[] = [
   {
     slug: "abcs-of-graphic-design",
-    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789788319263-abcs-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk3ODgzMTkyNjMtYWJjcy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTc4ODMyMiwiZXhwIjoyMTA1MTQ4MzIyfQ.dvX2MKuDun806lx7kmL0qofX0BShx8gFdFDjvA7YABw",
+    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789914041322-abcs-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk5MTQwNDEzMjItYWJjcy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTkxNDA1NCwiZXhwIjoyMTA1Mjc0MDU0fQ.-TBYrN-fn8q7W0u8xHWLzyaBmuYdqZnJytb4SiYswj4",
     title: "The ABCs of Graphic Design",
     shortTitle: "ABCs of Graphic Design",
     version: "1.0",
