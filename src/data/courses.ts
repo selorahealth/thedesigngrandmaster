@@ -61,7 +61,7 @@ export const courses: Course[] = [
     tools: ["PixelLab", "Lightroom", "Snapseed"],
     badge: "SELF-PACED · LIFETIME ACCESS",
     whatsappMessage:
-      "Hi Thedesigngrandmaster. My name is {fullName}. I just made payment for The ABCs of Graphic Design course. Here's my receipt.",
+      "Hi *Thedesigngrandmaster*. My name is *{fullName}*. I just made payment for *The ABCs of Graphic Design* course. Here's my receipt.",
   },
   {
     slug: "essentials-of-vibecoding",
@@ -103,7 +103,7 @@ export const courses: Course[] = [
     tools: ["Cursor", "Claude", "ChatGPT", "v0", "Vercel", "Supabase"],
     badge: "COMING SOON",
     whatsappMessage:
-      "Hi Thedesigngrandmaster. My name is {fullName}. I just made payment for Essentials of Vibecoding course. Here's my receipt.",
+      "Hi *Thedesigngrandmaster*. My name is *{fullName}*. I just made payment for *Essentials of Vibecoding* course. Here's my receipt.",
   },
 ];
 
