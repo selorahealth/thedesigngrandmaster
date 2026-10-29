@@ -21,12 +21,12 @@ export type Course = {
 export const courses: Course[] = [
   {
     slug: "abcs-of-graphic-design",
-    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1789914041322-abcs-cover.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3ODk5MTQwNDEzMjItYWJjcy1jb3Zlci53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc4OTkxNDA1NCwiZXhwIjoyMTA1Mjc0MDU0fQ.-TBYrN-fn8q7W0u8xHWLzyaBmuYdqZnJytb4SiYswj4",
+    image: "https://menvxgufebqlhhupmkvb.supabase.co/storage/v1/object/sign/media/course-covers/1793297945143-abcs-cover-3x.webp?token=eyJraWQiOiJjYTIxMGI3MC1kY2U1LTQzOWMtYWI3ZC03YTMxOWQ0NmUxNmYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtZWRpYS9jb3Vyc2UtY292ZXJzLzE3OTMyOTc5NDUxNDMtYWJjcy1jb3Zlci0zeC53ZWJwIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MzI5Nzk0NiwiZXhwIjoyMTA4NjU3OTQ2fQ.jHTWuOGNjCU3kf6m9cB_bTKnufHp4_kyxgonMaDroZ0",
     title: "The ABCs of Graphic Design",
     shortTitle: "ABCs of Graphic Design",
     version: "1.0",
-    price: 5500,
-    originalPrice: 8500,
+    price: 4000,
+    originalPrice: 6000,
     currency: "NGN",
     duration: "Self-paced · Lifetime access",
     level: "Beginner",
